@@ -4,5 +4,8 @@ block content
 
     h1= title
     p Welcome to #{title}
-    button#add Add User
+    button#add_user(onclick="window.location ='/newuser'") Add user
+    button#remove_user(onclick="window.location ='/removeuser'") Remove user
+    button#edit_user(onclick="window.location ='/edituser'") Edit user
+
     include footer

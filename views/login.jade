@@ -1,0 +1,15 @@
+extends layout
+include header
+block content
+    h3=title
+    form#login_form(action="log" method="POST")
+        span Login
+        span &nbsp
+        input#username(type="text" placeholder="Login", name="login")
+        br
+        span Password
+        span &nbsp
+        input#password(type="password" placeholder="Password", name="password")
+        br
+        button#login(type="submit") Login
+    button#sign_up(onclick="window.location='/newuser'") Sign up
