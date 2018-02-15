@@ -1,123 +1,123 @@
-include header
+extends layout
+block content
+    include header
+    #exampleModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='exampleModalLabel', aria-hidden='true')
+        .modal-dialog(role='document')
+            .modal-content
+                .modal-header
+                    h5#exampleModalLabel.modal-title Sign Up Modal
+                    button.close(type='button', data-dismiss='modal', aria-label='Close')
+                        span(aria-hidden='true') �
+                .modal-body
+                form#signupform(action='#')
+                    .form-group
+                        label(for='fullname') Full Name
+                        input#fullname(type='text', name='fullname', placeholder='Full Name')
+                    .form-group
+                        label(for='username') User Name
+                        input#username(type='text', name='username', placeholder='User Name')
+                    .form-group
+                        label(for='email') Email Address
+                        input#email(type='text', name='email', placeholder='Email Address')
+                    .form-group
+                        label(for='password') Password
+                        input#password(type='password', name='password', placeholder='Password')
+                    .form-group
+                        button.submit.btn.btn-primary.btn-shadow.btn-gradient(type='submit') Signup
 
-// Sign Up prompt
-#exampleModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='exampleModalLabel', aria-hidden='true')
-  .modal-dialog(role='document')
-    .modal-content
-      .modal-header
-        h5#exampleModalLabel.modal-title Sign Up Modal
-        button.close(type='button', data-dismiss='modal', aria-label='Close')
-          span(aria-hidden='true') �
-      .modal-body
-        form#signupform(action='#')
-          .form-group
-            label(for='fullname') Full Name
-            input#fullname(type='text', name='fullname', placeholder='Full Name')
-          .form-group
-            label(for='username') User Name
-            input#username(type='text', name='username', placeholder='User Name')
-          .form-group
-            label(for='email') Email Address
-            input#email(type='text', name='email', placeholder='Email Address')
-          .form-group
-            label(for='password') Password
-            input#password(type='password', name='password', placeholder='Password')
-          .form-group
-            button.submit.btn.btn-primary.btn-shadow.btn-gradient(type='submit') Signup
-// The Hero Shot
-section#hero.hero.hero-home.bg-gray
-  .container
-    .row.d-flex
-      .col-lg-6.text.order-2.order-lg-1
-        h1 StartUps - Looking for a team to get your project going?
-        p.hero-text
-          | We provide you with such opportunity! Look up, chat a meet with interested people all over the world! Organize
-          | meetings, discuss, debate and be pursue your goals!
-        .CTA
-          a.btn.btn-primary.btn-shadow.btn-gradient.link-scroll(href='#features') Discover More
-          a.btn.btn-outline-primary(href='#', data-toggle='modal', data-target='#exampleModal') Sign Up Now
-      .col-lg-6.order-1.order-lg-2
-        img.img-fluid(src='../img/startup-business-concept.jpg', alt='...')
-// Benefits and features
-section#browser.browser
-  .container
-    .row.d-flex.justify-content-center
-      .col-lg-8.text-center
-        h2.h3.mb-5 How it works
-        .browser-mockup
-          #nav-tabContent.tab-content
-            #nav-first.tab-pane.fade.show.active(role='tabpanel', aria-labelledby='nav-first-tab')
-              img.img-fluid(src='../img/preview-2.png', alt='...')
-            #nav-second.tab-pane.fade(role='tabpanel', aria-labelledby='nav-second-tab')
-              img.img-fluid(src='../img/ideas.jpg', alt='...')
-            #nav-third.tab-pane.fade(role='tabpanel', aria-labelledby='nav-third-tab')
-              img.img-fluid(src='../img/share.jpg', alt='...')
-    #myTab.nav.nav-tabs(role='tablist')
-      .row
-        .col-md-4
-          a#nav-first-tab.nav-item.nav-link.active(data-toggle='tab', href='#nav-first', role='tab', aria-controls='nav-first', aria-expanded='true')
-            span.number 1
-            | Integration with sth
-        .col-md-4
-          a#nav-second-tab.nav-item.nav-link(data-toggle='tab', href='#nav-second', role='tab', aria-controls='nav-second')
-            span.number 2
-            | Cool explanation of some design
-        .col-md-4
-          a#nav-third-tab.nav-item.nav-link(data-toggle='tab', href='#nav-third', role='tab', aria-controls='nav-third')
-            span.number 3
-            | Something utterly bizarre
-// About us (brief)
-section#about-us.about-us.bg-gray
-  .container
-    h2 About Us
-    .row
-      p.lead.col-lg-10
-        | We are a young team of researches who want to help talented minds combine into teams to achieve the greatest heights. Blah Blah Blah
-    a.btn.btn-primary.btn-shadow.btn-gradient(href='#') More
-// A set of features
-section#features.features
-  .container
-    .row.d-flex.align-items-center
-      .text.col-lg-6.order-2.order-lg-1
-        .icon
-          img.img-fluid(src='../img/medal.svg', alt='...')
-        h4 Feature 1
-        p Description bunch of text, yes that's very concerning blah blah
-        a.btn.btn-primary.btn-shadow.btn-gradient(href='#') View More
-      .image.col-lg-6.order-1.order-lg-2
-        img.img-fluid(src='../img/feature-1.png', alt='...')
-    .row.d-flex.align-items-center
-      .image.col-lg-6
-        img.img-fluid(src='../img/feature-2.png', alt='...')
-      .text.col-lg-6
-        .icon
-          img.img-fluid(src='../img/hourglass.svg', alt='...')
-        h4 Feature 2
-        p Another miraculous description of a feature blah blah blah etc
-        a.btn.btn-primary.btn-shadow.btn-gradient(href='#') View More
-    .row.d-flex.align-items-center
-      .text.col-lg-6.order-2.order-lg-1
-        .icon
-          img.img-fluid(src='../img/cup.svg', alt='...')
-        h4 Feature 3
-        p Bunch of text to make viewers interested and excited 
-        a.btn.btn-primary.btn-shadow.btn-gradient(href='#') View More
-      .image.col-lg-6.order-1.order-lg-2
-        img.img-fluid(src='../img/feature-3.png', alt='...')
-// Newsletter subscription
-section#newsletter.newsletter.bg-gray
-  .container.text-center
-    h2 Subscribe to Newsletter
-    p.lead Subscribe to get all the necessary updates regarding StartUps for Everyone!
-    .form-holder
-      form#newsletterForm(action='#')
-        .form-group
-          input#e_mail(type='email', name='email', placeholder='Enter Your Email Address')
-          button.btn.btn-primary.btn-gradient.submit(type='submit') Subscribe
-// Scroller
-#scrollTop
-  .d-flex.align-items-center.justify-content-end
-    i.fa.fa-long-arrow-up
-    | To Top
+    section#hero.hero.hero-home.bg-gray
+        .container
+            .row.d-flex
+                .col-lg-6.text.order-2.order-lg-1
+                    h1 StartUps - Looking for a team to get your project going?
+                    p.hero-text
+                        | We provide you with such opportunity! Look up, chat a meet with interested people all over the world! Organize
+                        | meetings, discuss, debate and be pursue your goals!
+                    .CTA
+                        a.btn.btn-primary.btn-shadow.btn-gradient.link-scroll(href='#features') Discover More
+                        a.btn.btn-outline-primary(href='#', data-toggle='modal', data-target='#exampleModal') Sign Up Now
+                    .col-lg-6.order-1.order-lg-2
+                        img.img-fluid(src='images/startup-business-concept.jpg', alt='...')
+
+    section#browser.browser
+        .container
+            .row.d-flex.justify-content-center
+                .col-lg-8.text-center
+                    h2.h3.mb-5 How it works
+                    .browser-mockup
+                        #nav-tabContent.tab-content
+                            #nav-first.tab-pane.fade.show.active(role='tabpanel', aria-labelledby='nav-first-tab')
+                                img.img-fluid(src='images/preview-2.png', alt='...')
+                            #nav-second.tab-pane.fade(role='tabpanel', aria-labelledby='nav-second-tab')
+                                img.img-fluid(src='images/ideas.jpg', alt='...')
+                            #nav-third.tab-pane.fade(role='tabpanel', aria-labelledby='nav-third-tab')
+                                img.img-fluid(src='images/share.jpg', alt='...')
+        #myTab.nav.nav-tabs(role='tablist')
+            .row
+                .col-md-4
+                    a#nav-first-tab.nav-item.nav-link.active(data-toggle='tab', href='#nav-first', role='tab', aria-controls='nav-first', aria-expanded='true')
+                        span.number 1
+                        | Integration with sth
+                        .col-md-4
+                            a#nav-second-tab.nav-item.nav-link(data-toggle='tab', href='#nav-second', role='tab', aria-controls='nav-second')
+                                span.number 2
+                                | Cool explanation of some design
+                        .col-md-4
+                            a#nav-third-tab.nav-item.nav-link(data-toggle='tab', href='#nav-third', role='tab', aria-controls='nav-third')
+                                span.number 3
+                                | Something utterly bizarre
+
+    section#about-us.about-us.bg-gray
+        .container
+            h2 About Us
+            .row
+                p.lead.col-lg-10
+                    | We are a young team of researches who want to help talented minds combine into teams to achieve the greatest heights. Blah Blah Blah
+            a.btn.btn-primary.btn-shadow.btn-gradient(href='#') More
+
+    section#features.features
+        .container
+            .row.d-flex.align-items-center
+                .text.col-lg-6.order-2.order-lg-1
+                    .icon
+                        img.img-fluid(src='images/medal.svg', alt='...')
+                    h4 Feature 1
+                    p Description bunch of text, yes that's very concerning blah blah
+                    a.btn.btn-primary.btn-shadow.btn-gradient(href='#') View More
+                .image.col-lg-6.order-1.order-lg-2
+                    img.img-fluid(src='images/feature-1.png', alt='...')
+            .row.d-flex.align-items-center
+                .image.col-lg-6
+                    img.img-fluid(src='images/feature-2.png', alt='...')
+                .text.col-lg-6
+                    .icon
+                        img.img-fluid(src='images/hourglass.svg', alt='...')
+                    h4 Feature 2
+                    p Another miraculous description of a feature blah blah blah etc
+                    a.btn.btn-primary.btn-shadow.btn-gradient(href='#') View More
+                .row.d-flex.align-items-center
+                    .text.col-lg-6.order-2.order-lg-1
+                        .icon
+                            img.img-fluid(src='images/cup.svg', alt='...')
+                        h4 Feature 3
+                        p Bunch of text to make viewers interested and excited
+                        a.btn.btn-primary.btn-shadow.btn-gradient(href='#') View More
+                    .image.col-lg-6.order-1.order-lg-2
+                        img.img-fluid(src='images/feature-3.png', alt='...')
+
+    section#newsletter.newsletter.bg-gray
+        .container.text-center
+            h2 Subscribe to Newsletter
+            p.lead Subscribe to get all the necessary updates regarding StartUps for Everyone!
+            .form-holder
+                form#newsletterForm(action='#')
+                    .form-group
+                        input#e_mail(type='email', name='email', placeholder='Enter Your Email Address')
+                        button.btn.btn-primary.btn-gradient.submit(type='submit') Subscribe
+
+    #scrollTop
+        .d-flex.align-items-center.justify-content-end
+            i.fa.fa-long-arrow-up
+            | To Top
 
 include footer

@@ -11,10 +11,12 @@
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.9",
     "express": "~4.15.5",
+    "finalhandler": "^1.1.0",
     "jade": "~1.11.0",
     "kerberos": "~0.0.17",
     "mongodb": "~3.0.2",
     "morgan": "~1.9.0",
-    "serve-favicon": "~2.4.5"
+    "serve-favicon": "~2.4.5",
+    "serve-static": "^1.13.2"
   }
 }
