@@ -1,12 +1,23 @@
 var express = require('express');
+
 var router = express.Router();
 var mongodb = require('mongodb');
 
 var nameOfRegisteredUser="";
 /* GET home page. */
+
+
+
+
 router.get('/', function(req, res, next) {
   res.render('index', { title: nameOfRegisteredUser });
 });
+
+
+router.get('/landing',function (req,res) {
+    res.render('landing',{title:'Landing page'});
+})
+
 
 router.get("/login",function (req,res) {
     res.render('login',{title:'Login page'});
@@ -168,5 +179,7 @@ router.get('/editinguser',function (req,res) {
         }
     })
 })
+
+
 
 module.exports = router;
