@@ -99,6 +99,7 @@ router.get('/', function(req, res, next) {
 
 
 
+
 router.get('/landing',function (req,res) {
     res.render('landing',{title:'Landing page'});
 })
