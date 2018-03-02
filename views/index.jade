@@ -2,9 +2,11 @@ extends layout
 block content
 
     h1= title
-    p Welcome to #{title}
-    button#add_user(onclick="window.location ='/newuser'") Add user
-    button#remove_user(onclick="window.location ='/removeuser'") Remove user
-    button#edit_user(onclick="window.location ='/edituser'") Edit user
+    if(title!="Not logged in")
+        p Welcome, #{title}
+    button#login(onclick="window.location ='/login'") Login
+    if(title!="Not logged in")
+        button#remove_user(onclick="window.location ='/logout'") Log out
+        button#change_userSettings(onclick='window.location="/profileSettings"') Profile Settings
     //img(src="images/feature-1.png")
     include footer
