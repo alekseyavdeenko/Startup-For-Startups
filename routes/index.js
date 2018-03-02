@@ -86,6 +86,7 @@ router.post('/changeUserSettings',function (req,res) {
                     console.log("Not reg");
                     res.redirect('/login');
                 }
+
                 client.close()
             }
         }
