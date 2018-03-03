@@ -58,7 +58,7 @@ router.get('/profileSettings',function (req,res) {
     }
 })
 
-router.post('/changeUserSettings',function (req,res) {
+router.post('/changeusersettings',function (req,res) {
     var MongoClient = mongodb.MongoClient;
 
     var url = 'mongodb://localhost:27017/startup';
@@ -70,27 +70,24 @@ router.post('/changeUserSettings',function (req,res) {
             console.log("Connected");
             var db=client.db('startup');
             var collection = db.collection("users");
-
-            collection.replaceOne({user:logedInUser.user,login:logedInUser.login,password:logedInUser.password},{user:req.body.user,login:req.body.login,password:req.body.password}),function(err, results) {
+            var updUser={user:req.body.user,login:req.body.login,password:req.body.password};
+            collection.updateOne({user:logedInUser.user,login:logedInUser.login,password:logedInUser.password},{$set:updUser},function(err, results) {
                 if(err){
                     console.log("You are not registered")
                 }
 
-                else if(results.length){
+                else{
                     logedInUser.user = req.body.user;
                     logedInUser.login = req.body.login;
                     logedInUser.password = req.body.password;
                     res.redirect('/')
                 }
-                else {
-                    console.log("Not reg");
-                    res.redirect('/login');
-                }
+
                 client.close()
-            }
+            })
         }
     })
-})
+});
 
 router.get('/', function(req, res, next) {
     if(logedInUser!=null) res.render('index', { title: logedInUser.user });

@@ -2,7 +2,7 @@ extends layout
 
 block content
     h3=title
-    form#form_add_user(name="deleteuser",method="post",action="/deleteuser")
+    form#form_delete_user(name="deleteuser",method="post",action="/deleteuser")
         span Name
         span &nbsp
         input#input_name(type="text",placeholder="Your name",name="user")
