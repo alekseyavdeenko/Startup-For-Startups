@@ -4,10 +4,15 @@ var pages = require('../pages/pages');
 var mongodb = require('mongodb');
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
+  if(logedInUser!=null){
+      res.redirect('/'+logedInUser.login.toString());
+  }
 });
 
-router.get('/profileSettings',function (req,res) {
+
+router.get('/:user',pages.profile);
+
+router.get('/:user/profileSettings',function (req,res) {
     if(logedInUser!=null){
         res.render('profileSettings',{title:"Change Settings",user:logedInUser});
     }
@@ -16,7 +21,8 @@ router.get('/profileSettings',function (req,res) {
     }
 })
 
-router.post('/changeusersettings',function (req,res) {
+
+router.post('/:user/changeusersettings',function (req,res) {
     var MongoClient = mongodb.MongoClient;
 
     var url = 'mongodb://localhost:27017/startup';
@@ -47,35 +53,6 @@ router.post('/changeusersettings',function (req,res) {
     })
 });
 
-
-router.get('/newuser',pages.newUser);
-
-router.post('/adduser',function (req,res) {
-    var MongoClient = mongodb.MongoClient;
-
-    var url = 'mongodb://localhost:27017/startup';
-
-    MongoClient.connect(url,function (err,client) {
-        if(err){
-            console.log("Unable to connect to server");
-        }
-        else{
-            console.log("Connected");
-            var db = client.db('startup');
-
-            var collection = db.collection("users");
-
-            collection.insertOne({user:req.body.user , login: req.body.login, password: req.body.password},function (err,result) {
-                if(err){
-                    console.log("Cannot add new student to database",err);
-                }else{
-                    console.log("User had been added");
-                }
-                client.close()
-            });
-        }
-    })
-});
 
 
 module.exports = router;

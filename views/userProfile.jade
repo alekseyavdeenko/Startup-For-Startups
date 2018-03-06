@@ -1,0 +1,6 @@
+
+extends layout
+block content
+    h1=title
+    if(logedInUser!=null)
+        button#change_userSettings(onclick='window.location="/user/#{logedInUser.login}/profileSettings"') Profile Settings

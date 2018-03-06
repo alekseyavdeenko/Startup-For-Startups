@@ -14,3 +14,7 @@ module.exports.delUser = function (req,res) {
 module.exports.newUser = function (req,res) {
     res.render('newuser',{title:'Add user'});
 };
+
+module.exports.profile = function (req,res) {
+    res.render('userProfile',{title:"Profile"});
+};
