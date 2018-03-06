@@ -1,8 +1,9 @@
 extends layout
 
+
 block content
     h3=title
-    form#form_add_user(name="adduser",method="post",action="/adduser")
+    form#form_add_user(name="adduser",method="post",action="user/adduser")
         span Name
         span &nbsp
         input#input_name(type="text",placeholder="Your name",name="user")

@@ -1,7 +1,9 @@
 extends layout
+include header
+
 block content
     h3=title
-    form#form_update_user(name="changeUserSettings",method="post",action="/changeusersettings")
+    form#form_update_user(name="changeUserSettings",method="post",action="user/changeusersettings")
         span Name
         span &nbsp
         input#input_name(type="text",placeholder="Your name",name="user",value="#{user.user}")
