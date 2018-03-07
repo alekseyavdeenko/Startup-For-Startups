@@ -4,6 +4,11 @@ var router = express.Router();
 var mongodb = require('mongodb');
 var pages = require('../pages/pages');
 global.logedInUser=null;
+// global.logedInUser={
+//     user:"Max Riepkin",
+//     login:"repkin1998",
+//     password:"rms1998"
+// }
 /* GET home page. */
 
 
