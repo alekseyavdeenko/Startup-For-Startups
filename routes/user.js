@@ -27,63 +27,69 @@ router.get('/:user/profileSettings',function (req,res) {
 router.post('/:user/uploadimage',function (req,res) {
     var form = new formidable.IncomingForm();
     form.parse(req, function (err, fields, files) {
-        var oldpath = files.myImage.path;
+        if(files.myImage!=undefined) {
 
-        var newpath = 'c:\\users\\pc\\webstormprojects\\startup-for-startups\\uploads\\';
+            var oldpath = files.myImage.path;
 
-        var extension = files.myImage.name.substr(files.myImage.name.length - 3);
+            var newpath = 'c:\\users\\pc\\webstormprojects\\startup-for-startups\\uploads\\';
 
-        var name = logedInUser.login;
+            var extension = files.myImage.name.substr(files.myImage.name.length - 3);
 
-        var newpath = 'c:\\users\\pc\\webstormprojects\\startup-for-startups\\public\\uploads\\'+name+'.'+extension;
+            var name = logedInUser.login;
 
-        fs.rename(oldpath, newpath, function (err) {
-            if (err) throw err;
-            else {
-                newpath = '../../uploads/'+name+'.'+extension;
+            newpath = 'c:\\users\\pc\\webstormprojects\\startup-for-startups\\public\\uploads\\' + name + '.' + extension;
+            if (extension == 'jpg' || extension == 'png') {
+                fs.rename(oldpath, newpath, function (err) {
+                    if (err) throw err;
+                    else {
+                        newpath = '../../uploads/' + name + '.' + extension;
 
-                if(extension=='jpg' || extension=='png'){
-                    var MongoClient = mongodb.MongoClient;
 
-                    var url = 'mongodb://localhost:27017/startup';
+                        var MongoClient = mongodb.MongoClient;
 
-                    MongoClient.connect(url,function (err,client) {
-                        if(err){
-                            console.log("Cannot connect to db");
-                        }else {
-                            console.log("Connected");
-                            var db=client.db('startup');
-                            var collection = db.collection("users");
-                            var updUser={user:req.body.user,login:req.body.login,password:req.body.password,img:newpath};
-                            collection.updateOne({user:logedInUser.user,login:logedInUser.login,password:logedInUser.password},{$set:updUser},function(err, results) {
-                                if(err){
-                                    console.log("You are not registered")
-                                }
+                        var url = 'mongodb://localhost:27017/startup';
 
-                                else{
-                                    logedInUser.img = newpath;
-                                    res.redirect('/');
-                                }
+                        MongoClient.connect(url, function (err, client) {
+                            if (err) {
+                                console.log("Cannot connect to db");
+                            } else {
+                                console.log("Connected");
+                                var db = client.db('startup');
+                                var collection = db.collection("users");
+                                var updUser = {
+                                    user: logedInUser.user,
+                                    login: logedInUser.login,
+                                    password: logedInUser.password,
+                                    img: newpath
+                                };
+                                collection.updateOne({
+                                    user: logedInUser.user,
+                                    login: logedInUser.login,
+                                    password: logedInUser.password,
+                                    img: logedInUser.img
+                                }, {$set: updUser}, function (err, results) {
+                                    if (err) {
+                                        console.log("You are not registered")
+                                    }
 
-                                client.close()
-                            })
-                        }
-                    })
-                }
+                                    else {
+                                        logedInUser.img = newpath;
+                                        res.redirect('/user/' + logedInUser.login + '/profileSettings');
+                                    }
+
+                                    client.close()
+                                })
+                            }
+                        })
+                    }
+                });
             }
-        });
-    //res.send(req.files.myImage);
-    //var ext = req.body.myImage.substr(req.body.myImage.length - 3);
-
-    // if(ext=='jpg'||ext=='png'){
-    //
-    //     res.send(req.files.myImage.path);
-    //     //res.send(req.body);
-    // }
-    // else {
-    //     res.send("ERROR");
-    // }
+        }
+        else{
+            res.redirect('/user/' + logedInUser.login + '/profileSettings');
+        }
 })});
+
 router.post('/:user/changeusersettings',function (req,res) {
     var MongoClient = mongodb.MongoClient;
 
@@ -96,8 +102,8 @@ router.post('/:user/changeusersettings',function (req,res) {
             console.log("Connected");
             var db=client.db('startup');
             var collection = db.collection("users");
-            var updUser={user:req.body.user,login:req.body.login,password:req.body.password};
-            collection.updateOne({user:logedInUser.user,login:logedInUser.login,password:logedInUser.password},{$set:updUser},function(err, results) {
+            var updUser={user:req.body.user,login:req.body.login,password:req.body.password,img:logedInUser.img};
+            collection.updateOne({user:logedInUser.user,login:logedInUser.login,password:logedInUser.password,img:logedInUser.img},{$set:updUser},function(err, results) {
                 if(err){
                     console.log("You are not registered")
                 }
@@ -106,7 +112,7 @@ router.post('/:user/changeusersettings',function (req,res) {
                     logedInUser.user = req.body.user;
                     logedInUser.login = req.body.login;
                     logedInUser.password = req.body.password;
-                    res.redirect('/')
+                    res.redirect('/user/'+logedInUser.login+'/profileSettings')
                 }
 
                 client.close()

@@ -42,10 +42,11 @@ router.post('/adduser',function (req,res) {
 
             var collection = db.collection("users");
 
-            collection.insertOne({user:req.body.user , login: req.body.login, password: req.body.password},function (err,result) {
+            collection.insertOne({user:req.body.user , login: req.body.login, password: req.body.password , img:'../../images/default_avatar.gif'},function (err,result) {
                 if(err){
                     console.log("Cannot add new student to database",err);
                 }else{
+                    res.redirect('/login');
                     console.log("User had been added");
                 }
                 client.close()
@@ -84,6 +85,24 @@ router.post('/deleteuser',function (req,res) {
         }
     })
 })
+
+
+router.get('/drop',function (req,res) {
+    var MongoClient = mongodb.MongoClient;
+
+    var url = 'mongodb://localhost:27017/startup';
+
+    MongoClient.connect(url,function (err,client) {
+        if(err){
+            console.log("Unable to connect to the server",err)
+        }else{
+            console.log("Connected");
+            var db = client.db('startup');
+            db.collection('users').drop();
+            res.redirect('/');
+        }
+    });
+});
 
 router.get('/userlist',function (req,res) {
    var MongoClient = mongodb.MongoClient;
