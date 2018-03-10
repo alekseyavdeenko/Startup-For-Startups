@@ -1,7 +1,7 @@
 extends layout
 block content
     h1= title
-    if(title!="Not logged in")
+    if(title!="Not loged in")
         p Welcome, #{title}
     button#login(onclick="window.location ='/login'") Login
     if(title!="Not logged in")
