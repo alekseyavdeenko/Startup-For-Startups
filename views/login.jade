@@ -1,15 +1,28 @@
 extends layout
-include header
+
 block content
-    h3=title
-    form#login_form(action="login/log" method="POST")
-        span Login
-        span &nbsp
-        input#username(type="text" placeholder="Login", name="login")
-        br
-        span Password
-        span &nbsp
-        input#password(type="password" placeholder="Password", name="password")
-        br
-        button#login(type="submit") Login
-    button#sign_up(onclick="window.location='/newuser'") Sign up
+
+    #login.center-vertical
+        form.well(id='form-login', method='post')
+            h2 Guten Tag!
+            h6 Please Login To Your Account
+            .form-group
+                label E-mail
+                input.form-control(type='text', id='user-tf', name='user')
+            .form-group
+                label Password
+                input.form-control(type='password', id='pass-tf', name='pass')
+            .controls
+                input#checkbox(type='checkbox', name='remember', checked=false)
+                #remember Remember Me
+                button(type='submit').btn.btn-primary.button-sign-in
+                    span
+                    | Sign In
+            .clearfix
+            hr
+            .btm-links
+                #forgot-password
+                    a(href='#') Forgot Your Password?
+                #create-account
+                    a(href='/signup') Create An Account
+            .clearfix
