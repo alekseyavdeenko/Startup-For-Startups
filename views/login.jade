@@ -3,15 +3,15 @@ extends layout
 block content
 
     #login.center-vertical
-        form.well(id='form-login', method='post')
+        form.well(action="login/log",id='form-login', method='post')
             h2 Guten Tag!
             h6 Please Login To Your Account
             .form-group
-                label E-mail
-                input.form-control(type='text', id='user-tf', name='user')
+                label Login
+                input.form-control(type='text', id='user-tf', name='login')
             .form-group
                 label Password
-                input.form-control(type='password', id='pass-tf', name='pass')
+                input.form-control(type='password', id='pass-tf', name='password')
             .controls
                 input#checkbox(type='checkbox', name='remember', checked=false)
                 #remember Remember Me

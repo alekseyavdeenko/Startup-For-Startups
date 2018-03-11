@@ -18,3 +18,7 @@ module.exports.newUser = function (req,res) {
 module.exports.profile = function (req,res) {
     res.render('userProfile',{title:"Profile"});
 };
+
+module.exports.signup = function (req,res) {
+    res.render('signup',{title:"Sign Up"});
+};

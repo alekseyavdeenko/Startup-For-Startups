@@ -19,13 +19,9 @@ router.get('/logout',function (req,res) {
 })
 
 /* Sign up / Login render */
-router.get('/signup', function(req, res) {
-    res.render('signup', {title: 'Sign Up'})
-});
+router.get("/signup",pages.signup);
 
-router.get('/login', function(req, res) {
-    res.render('login', {title: 'Login'})
-});
+
 
 router.get('/', function(req, res, next) {
     if(logedInUser!=null) res.render('index', { title: logedInUser.user, login:logedInUser.login.toString() });
