@@ -1,0 +1,14 @@
+
+extends layout
+block content
+    h1=title
+    form#ask_question.center-vertical.form-horizontal.well(method="post",action="/ask_question")
+        .form-group
+            span Theme
+            input#input_theme(type='text',name='theme')
+        .form-group
+            span Question
+            input#input_question(type='text',name='question')
+            hr
+            .form-buttons
+                button(type='submit')#addQuestion.btn.btn-primary Ask!

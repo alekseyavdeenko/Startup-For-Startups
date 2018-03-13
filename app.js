@@ -71,6 +71,7 @@ app.use(function(err, req, res, next) {
 
 app.use(function (req,res,next) {
     res.locals.session = req.session;
+    res.locals.expressValidator = req.expressValidator;
 });
 
 module.exports = app;

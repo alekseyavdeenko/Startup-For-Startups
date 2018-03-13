@@ -103,16 +103,20 @@ router.post('/:user/changeusersettings',function (req,res) {
             console.log("Connected");
             var db=client.db('startup');
             var collection = db.collection("users");
-            var updUser={user:req.body.user,login:req.body.login,password:req.body.password,img:req.session.logedInUser.img};
-            collection.updateOne({user:req.session.logedInUser.user,login:req.session.logedInUser.login,password:req.session.logedInUser.password,img:req.session.logedInUser.img},{$set:updUser},function(err, results) {
+            var updUser={user:req.body.user,login:req.body.login,password:req.body.password,img:req.session.logedInUser.img,profession:req.body.profession};
+            console.log(req.body.profession);
+            collection.updateOne({user:req.session.logedInUser.user,login:req.session.logedInUser.login,password:req.session.logedInUser.password,img:req.session.logedInUser.img,profession:req.session.logedInUser.profession},{$set:updUser},function(err, results) {
                 if(err){
                     console.log("You are not registered")
                 }
 
                 else{
+
                     req.session.logedInUser.user = req.body.user;
                     req.session.logedInUser.login = req.body.login;
                     req.session.logedInUser.password = req.body.password;
+                    req.session.logedInUser.profession=req.body.profession;
+                    console.log(req.session.logedInUser.profession);
                     res.redirect('/user/'+req.session.logedInUser.login+'/profileSettings')
                 }
 

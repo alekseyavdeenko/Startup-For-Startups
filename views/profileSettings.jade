@@ -28,4 +28,13 @@ block content
         input#input_password(type="password",placeholder="Password",name="password",value="#{user.password}")
         br
         br
+        span Profession
+        span &nbsp
+        if(user.profession)
+            input#input_profession(type="text",placeholder="Profession",name="profession",value="#{user.profession}")
+        else
+            input#input_profession(type="text",placeholder="Profession",name="profession")
+
+        br
+        br
         button#submit_changes_userSettings(type="submit") submit

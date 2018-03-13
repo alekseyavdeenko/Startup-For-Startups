@@ -22,3 +22,7 @@ module.exports.profile = function (req,res) {
 module.exports.signup = function (req,res) {
     res.render('signup',{title:"Sign Up"});
 };
+
+module.exports.ask = function (req,res) {
+    res.render('ask',{title:'Ask question'});
+};

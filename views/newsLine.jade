@@ -1,0 +1,12 @@
+extends layout
+block content
+    h3=title
+    ul
+        each question, i in questionList
+            li#user_list_item
+                a(href='#') Theme #{question.theme}
+                    br
+                    question #{question.question}
+                    br
+                    author #{question.author.user}
+                    br
