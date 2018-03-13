@@ -16,7 +16,7 @@ module.exports.newUser = function (req,res) {
 };
 
 module.exports.profile = function (req,res) {
-    res.render('userProfile',{title:"Profile"});
+    res.render('userProfile',{title:"Profile",logedUser:req.session.logedInUser});
 };
 
 module.exports.signup = function (req,res) {

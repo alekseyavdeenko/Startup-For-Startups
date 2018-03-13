@@ -3,7 +3,7 @@ var express = require('express');
 var router = express.Router();
 var mongodb = require('mongodb');
 var pages = require('../pages/pages');
-global.logedInUser=null;
+//global.logedInUser=null;
 // global.logedInUser={
 //     user:"Max Riepkin",
 //     login:"repkin1998",
@@ -14,7 +14,9 @@ global.logedInUser=null;
 
 
 router.get('/logout',function (req,res) {
-    logedInUser = null;
+    //logedInUser = null;
+    console.log(req.session.logedInUser.user);
+    req.session.destroy();
     res.redirect('/');
 })
 
@@ -23,8 +25,9 @@ router.get("/signup",pages.signup);
 
 
 
+
 router.get('/', function(req, res, next) {
-    if(logedInUser!=null) res.render('index', { title: logedInUser.user, login:logedInUser.login.toString() });
+    if(req.session.logedInUser!=null) res.render('index', { title: req.session.logedInUser.user, login:req.session.logedInUser.login.toString() });
     else res.render('index', { title: "Not logged in" });
 });
 

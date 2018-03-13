@@ -2,8 +2,14 @@ var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
+var mongodb = require('mongodb');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var mongoose = require('mongoose');
+var expressValidator = require('express-validator');
+var session = require('express-session');
+//var session = require('session');
+const MongoStore = require('connect-mongo')(session);
 
 var mongo = require('mongodb');
 
@@ -22,8 +28,24 @@ app.set('view engine', 'jade');
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(expressValidator());
+
 app.use(cookieParser());
 app.use(express.static(__dirname + '/public'));
+
+//const connection = mongoose.createConnection(connectionOptions);
+
+app.use(session({
+    secret:'max',
+    saveUninitialized:false,
+    resave:false,
+    store:new MongoStore({
+
+        url:"mongodb://localhost:27017/startup"
+    }),
+
+    cookie:{maxAge:10*60*1000}
+}));
 
 app.use('/', index);
 app.use('/user', user);
@@ -45,6 +67,10 @@ app.use(function(err, req, res, next) {
   // render the error page
   res.status(err.status || 500);
   res.render('error');
+});
+
+app.use(function (req,res,next) {
+    res.locals.session = req.session;
 });
 
 module.exports = app;

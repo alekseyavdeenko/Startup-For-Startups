@@ -7,8 +7,8 @@ var fs = require('fs');
 var mongodb = require('mongodb');
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-  if(logedInUser!=null){
-      res.redirect('/'+logedInUser.login.toString());
+  if(req.session.logedInUser!=null){
+      res.redirect('/'+req.session.logedInUser.login.toString());
   }
 });
 
@@ -16,8 +16,9 @@ router.get('/', function(req, res, next) {
 router.get('/:user',pages.profile);
 
 router.get('/:user/profileSettings',function (req,res) {
-    if(logedInUser!=null){
-        res.render('profileSettings',{title:"Change Settings",user:logedInUser});
+
+    if(req.session.logedInUser!=null){
+        res.render('profileSettings',{title:"Change Settings",user:req.session.logedInUser});
     }
     else {
         res.redirect('/');
@@ -35,7 +36,7 @@ router.post('/:user/uploadimage',function (req,res) {
 
             var extension = files.myImage.name.substr(files.myImage.name.length - 3);
 
-            var name = logedInUser.login;
+            var name = req.session.logedInUser.login;
 
             newpath = 'c:\\users\\pc\\webstormprojects\\startup-for-startups\\public\\uploads\\' + name + '.' + extension;
             if (extension == 'jpg' || extension == 'png') {
@@ -57,24 +58,24 @@ router.post('/:user/uploadimage',function (req,res) {
                                 var db = client.db('startup');
                                 var collection = db.collection("users");
                                 var updUser = {
-                                    user: logedInUser.user,
-                                    login: logedInUser.login,
-                                    password: logedInUser.password,
+                                    user: req.session.logedInUser.user,
+                                    login: req.session.logedInUser.login,
+                                    password: req.session.logedInUser.password,
                                     img: newpath
                                 };
                                 collection.updateOne({
-                                    user: logedInUser.user,
-                                    login: logedInUser.login,
-                                    password: logedInUser.password,
-                                    img: logedInUser.img
+                                    user: req.session.logedInUser.user,
+                                    login: req.session.logedInUser.login,
+                                    password: req.session.logedInUser.password,
+                                    img: req.session.logedInUser.img
                                 }, {$set: updUser}, function (err, results) {
                                     if (err) {
                                         console.log("You are not registered")
                                     }
 
                                     else {
-                                        logedInUser.img = newpath;
-                                        res.redirect('/user/' + logedInUser.login + '/profileSettings');
+                                        req.session.logedInUser.img = newpath;
+                                        res.redirect('/user/' + req.session.logedInUser.login + '/profileSettings');
                                     }
 
                                     client.close()
@@ -86,7 +87,7 @@ router.post('/:user/uploadimage',function (req,res) {
             }
         }
         else{
-            res.redirect('/user/' + logedInUser.login + '/profileSettings');
+            res.redirect('/user/' + req.session.logedInUser.login + '/profileSettings');
         }
 })});
 
@@ -102,17 +103,17 @@ router.post('/:user/changeusersettings',function (req,res) {
             console.log("Connected");
             var db=client.db('startup');
             var collection = db.collection("users");
-            var updUser={user:req.body.user,login:req.body.login,password:req.body.password,img:logedInUser.img};
-            collection.updateOne({user:logedInUser.user,login:logedInUser.login,password:logedInUser.password,img:logedInUser.img},{$set:updUser},function(err, results) {
+            var updUser={user:req.body.user,login:req.body.login,password:req.body.password,img:req.session.logedInUser.img};
+            collection.updateOne({user:req.session.logedInUser.user,login:req.session.logedInUser.login,password:req.session.logedInUser.password,img:req.session.logedInUser.img},{$set:updUser},function(err, results) {
                 if(err){
                     console.log("You are not registered")
                 }
 
                 else{
-                    logedInUser.user = req.body.user;
-                    logedInUser.login = req.body.login;
-                    logedInUser.password = req.body.password;
-                    res.redirect('/user/'+logedInUser.login+'/profileSettings')
+                    req.session.logedInUser.user = req.body.user;
+                    req.session.logedInUser.login = req.body.login;
+                    req.session.logedInUser.password = req.body.password;
+                    res.redirect('/user/'+req.session.logedInUser.login+'/profileSettings')
                 }
 
                 client.close()

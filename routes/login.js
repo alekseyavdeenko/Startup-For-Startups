@@ -25,7 +25,9 @@ router.post('/log',function (req,res) {
 
                 else if(results.length){
 
-                    logedInUser = results[0];
+                    //var logedInUser = results[0];
+                    req.session.logedInUser=results[0];
+
                     res.redirect('/')
                 }
                 else {
