@@ -6,4 +6,4 @@ block content
     ul
         each user, i in userlist
             li#user_list_item
-                a(href='#') #{user.user} with login #{user.login} and password #{user.password}
+                a(href='/user/#{user.login}') #{user.user} with login #{user.login} and password #{user.password}

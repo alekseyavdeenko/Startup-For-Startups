@@ -1,8 +1,44 @@
 extends layout
 include header
 
-
 block content
+
+    nav#header.navbar.navbar-inverse
+        .container-fluid
+            .navbar-header
+                button.navbar-toggle(data-toggle='collapse', data-target='#navbar-collapse-2', type='button')
+                    span.icon-bar
+                    span.icon-bar
+                    span.icon-bar
+                a.navbar-brand.brandcolor(href='/') Site
+            #navbar-collapse-2.collapse.navbar-collapse
+                ul.nav.navbar-nav
+                    li.dropdown
+                        a.dropdown-toggle(data-toggle='dropdown', href='#', aria-expanded='true')
+                            | Doesn't work, needs fixing
+                            b.caret
+                        ul.dropdown-menu.dropdown-toggle(data-toggle="dropdown")
+                            li
+                                a(href="#") action
+                            li
+                                a(href="#") another action
+                form.navbar-form.navbar-left
+                    .form-group
+                        input.form-control(type='text', placeholder='Search')
+                    button.btn.btn-default(type='submit' style='margin-left:10px;') Submit
+                ul.nav.navbar-nav.navbar-right
+                    li.dropdown
+                        a.dropdown-toggle(data-toggle='dropdown', href='#', aria-expanded='false')
+                            | MyPage
+                            b.caret
+                        ul.dropdown-menu
+                            li
+                                a(href='#') Link #1
+                            li
+                                a(href='#') Link #2
+            // /.navbar-collapse
+
+    div.zalupa
     h3=title
     form#user_image(name="user_image",method='post',action='uploadimage',enctype="multipart/form-data")
         if(user.img != null)
@@ -23,9 +59,52 @@ block content
         input#input_login(type="text",placeholder="Login",name="login",value="#{user.login}")
         br
         br
+        br
+        br
+        br
+        span Login
+        span &nbsp
+        input(type="text",placeholder="Login",name="login",value="#{user.login}")
+        br
+        br
+        br
+        br
+        br
+        span Login
+        span &nbsp
+        input(type="text",placeholder="Login",name="login",value="#{user.login}")
+        br
+        br
+        br
+        br
+        br
+        span Login
+        span &nbsp
+        input(type="text",placeholder="Login",name="login",value="#{user.login}")
+        br
+        br
+        br
+        br
+        br
+        span Login
+        span &nbsp
+        input(type="text",placeholder="Login",name="login",value="#{user.login}")
+        br
+        br
+        br
+        br
+        br
+        span Login
+        span &nbsp
+        input(type="text",placeholder="Login",name="login",value="#{user.login}")
+        br
+        br
+        br
+        br
+        br
         span Password
         span &nbsp
-        input#input_password(type="password",placeholder="Password",name="password",value="#{user.password}")
+        inputinput_password(type="password",placeholder="Password",name="password",value="#{user.password}")
         br
         br
         span Profession
