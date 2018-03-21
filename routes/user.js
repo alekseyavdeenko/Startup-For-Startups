@@ -96,6 +96,7 @@ router.post('/:user/changeusersettings',function (req,res) {
 
     var url = 'mongodb://localhost:27017/startup';
 
+
     MongoClient.connect(url,function (err,client) {
         if(err){
             console.log("Cannot connect to db");

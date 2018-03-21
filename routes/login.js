@@ -5,6 +5,7 @@ var mongodb = require('mongodb');
 
 router.get("/",pages.login);
 
+
 router.post('/log',function (req,res) {
     var MongoClient = mongodb.MongoClient;
 

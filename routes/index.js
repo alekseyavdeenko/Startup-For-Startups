@@ -131,7 +131,9 @@ router.post('/adduser',function (req,res) {
 router.get('/landing',pages.landing);
 
 router.get('/ask',pages.ask);
+
 router.get('/removeuser',pages.delUser);
+
 
 router.post('/ask_question',function (req,res) {
     var MongoClient = mongodb.MongoClient;

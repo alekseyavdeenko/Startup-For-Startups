@@ -19,6 +19,8 @@ module.exports.profile = function (req,res) {
     res.render('userProfile',{title:"Profile",logedUser:req.session.logedInUser});
 };
 
+
+
 module.exports.signup = function (req,res) {
     res.render('signup',{title:"Sign Up"});
 };
