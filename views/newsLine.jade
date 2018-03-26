@@ -4,9 +4,10 @@ block content
     ul
         each question, i in questionList
             li#user_list_item
-                a(href='#') Theme #{question.theme}
+                a(href='question/#{question._id}' ) Theme #{question.theme}
                     br
                     question #{question.question}
                     br
                     author #{question.author.user}
                     br
+                    id #{question._id}

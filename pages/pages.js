@@ -28,3 +28,7 @@ module.exports.signup = function (req,res) {
 module.exports.ask = function (req,res) {
     res.render('ask',{title:'Ask question'});
 };
+
+module.exports.question=function (req,res) {
+    res.render('question',{question:question})
+}

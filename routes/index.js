@@ -2,13 +2,9 @@ var express = require('express');
 
 var router = express.Router();
 var mongodb = require('mongodb');
+var ObjectId = require('mongodb').ObjectID;
 var pages = require('../pages/pages');
-//global.logedInUser=null;
-// global.logedInUser={
-//     user:"Max Riepkin",
-//     login:"repkin1998",
-//     password:"rms1998"
-// }
+
 /* GET home page. */
 
 
@@ -103,8 +99,9 @@ router.post('/adduser',function (req,res) {
                 if(err){
                     console.log("Cannot add to db");
                 }
-                else if(result){
+                else if(result.length){
                     res.redirect('/signup');
+                    console.log("Already registered");
                     client.close();
                 }
                 else{
@@ -138,7 +135,6 @@ router.get('/removeuser',pages.delUser);
 router.post('/ask_question',function (req,res) {
     var MongoClient = mongodb.MongoClient;
     var url = 'mongodb://localhost:27017/startup';
-
     MongoClient.connect(url,function (err,client) {
         if(err){
             console.log("Failed to connect to server",err);
@@ -146,6 +142,8 @@ router.post('/ask_question',function (req,res) {
             console.log("Connected");
             var db = client.db('startup');
             var collection = db.collection('questions');
+
+
 
             collection.insertOne({theme:req.body.theme,question:req.body.question,author:req.session.logedInUser},function (err,result) {
                 if(err){
@@ -160,6 +158,8 @@ router.post('/ask_question',function (req,res) {
         }
     })
 });
+
+
 
 router.post('/deleteuser',function (req,res) {
     var MongoClient = mongodb.MongoClient;
@@ -187,6 +187,71 @@ router.post('/deleteuser',function (req,res) {
 });
 
 
+router.get("/question/:id",function (req,res) {
+    var MongoClient = mongodb.MongoClient;
+    var url = 'mongodb://localhost:27017/startup';
+    MongoClient.connect(url,function (err,client) {
+        if(err){
+            console.log("Failed to connect to server",err);
+        }else{
+            console.log("Connected");
+            var db = client.db('startup');
+            var collection = db.collection('questions');
+            collection.find({"_id":ObjectId(req.params.id)}).toArray(function (err,result) {
+                if(err){
+                    res.send(err);
+                }else if(result){
+                    res.render('question',{question:result[0]})
+                }
+                else{
+                    res.redirect('/feed');
+                }
+                client.close();
+            })
+        }
+    });
+
+});
+
+router.post("/question/:id/post_answer",function (req,res) {
+    var MongoClient = mongodb.MongoClient;
+    var url = 'mongodb://localhost:27017/startup';
+    MongoClient.connect(url,function (err,client) {
+        if(err){
+            console.log("Failed to connect to server",err);
+        }else {
+            console.log("Connected");
+            var db = client.db('startup');
+            var collection = db.collection('questions');
+
+            collection.find({"_id": ObjectId(req.params.id)}).toArray (function (err, result) {
+                if (err) {
+                    res.send(err);
+                }
+                else if (result) {
+                    var q = result[0];
+                    var ans = q.answers;
+                    ans += req.body.answer;
+                    collection.updateOne(q, {$set: {"answers": ans}}, function (err, result) {
+                        if (err) {
+                            res.send(err);
+                        } else if (result) {
+                            console.log(q.answers);
+                            res.redirect('/question/' + req.params.id);
+                        }
+                        else {
+                            res.redirect('/feed');
+                        }
+                        client.close();
+                    })
+                }
+            })
+        }
+
+
+    });
+
+});
 
 
 router.get('/drop',function (req,res) {
@@ -206,6 +271,24 @@ router.get('/drop',function (req,res) {
     });
 });
 
+
+router.get('/dropQuestions',function (req,res) {
+    var MongoClient = mongodb.MongoClient;
+
+    var url = 'mongodb://localhost:27017/startup';
+
+    MongoClient.connect(url,function (err,client) {
+        if(err){
+            console.log("Unable to connect to the server",err)
+        }else{
+            console.log("Connected");
+            var db = client.db('startup');
+            db.collection('questions').drop();
+            res.redirect('/');
+        }
+    });
+});
+
 router.get('/userlist',function (req,res) {
    var MongoClient = mongodb.MongoClient;
 
@@ -220,9 +303,11 @@ router.get('/userlist',function (req,res) {
          var collection = db.collection('users');
 
          collection.find({}).toArray(function (err,result) {
+             console.log(result);
              if(err){
                res.send(err)
              }else if(result.length){
+
                res.render('userlist',{
                  "userlist":result
                });
