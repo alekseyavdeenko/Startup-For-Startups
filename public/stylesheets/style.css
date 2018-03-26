@@ -1,6 +1,8 @@
 body {
   margin: 0;
   padding: 0;
+    margin-top: 0;
+    padding-top: 0;
   height: 100%;
   background: #00BFFF;
   background: -moz-radial-gradient(center, ellipse cover, #00BFFF 0%, #d6f0fd 100%) /* FF3.6+ */;
@@ -10,6 +12,49 @@ body {
   background: -ms-radial-gradient(center, ellipse cover, #00BFFF 0%, #d6f0fd 100%) /* IE10+ */;
   background: radial-gradient(center, ellipse cover, #00BFFF 0%, #d6f0fd 100%) /* W3C */;
 }
+
+#header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+    z-index: 20000;
+  height: 70px;
+  overflow: hidden; /* Disables scrollbars on the header frame. To enable scrollbars, change "hidden" to "scroll" */
+  background: #000000;
+}
+
+/*a {color: black;margin: 5px; text-decoration: none;}*/
+
+.dropdown-menu li:hover .sub-menu {
+    visibility: visible;
+}
+
+.dropdown:hover .dropdown-menu {
+    display: block;
+    margin-top: 0;
+}
+
+.dropdown-menu .sub-menu {
+    left: 100%;
+    position: absolute;
+    top: 0;
+    visibility: hidden;
+    margin-top: -1px;
+}
+
+.zalupa{
+    margin-top: 80px;
+}
+.navbar-brand{
+    color: whitesmoke;
+}
+
+/*.nullotstup{*/
+    /*margin-top: 0;*/
+    /*padding-top: 0;*/
+/*}*/
+
 h2 {
   margin: 0 0 6px 0;
   font-weight: bold;

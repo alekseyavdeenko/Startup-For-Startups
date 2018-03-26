@@ -14,7 +14,7 @@ https://bootstrapious.com
 * ==========================================================
 */
 body {
-  padding-top: 80px;
+  padding-top: 0;
   position: relative;
   overflow-x: hidden;
 }
@@ -333,9 +333,15 @@ nav.navbar {
 }
 
 nav.navbar .navbar-brand {
-  font-weight: 800;
+  font-weight: 700;
   font-size: 1.7rem;
-  color: #222;
+  color: #bbb;
+}
+
+nav.navbar .navbar-brand:hover {
+  font-weight: 700;
+  font-size: 1.9rem;
+  color: #FFFFFF;
 }
 
 nav.navbar a.nav-link {
