@@ -973,7 +973,7 @@ STYLE SWITCHER FOR DEMO
  */
 .btn {
   font-weight: 400;
-  border: 1px solid transparent;
+  /*border: 1px solid transparent;*/
   padding: 0.6rem 3rem;
   font-size: 1rem;
   line-height: 1.5;
