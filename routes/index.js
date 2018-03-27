@@ -25,6 +25,48 @@ function logedIn(req,res) {
     return false
 }
 
+router.post('/question/:id/givePoints/:login',function (req,res) {
+    if(logedIn(req,res)){
+    var MongoClient = mongodb.MongoClient;
+
+    var url = 'mongodb://localhost:27017/startup';
+
+    MongoClient.connect(url,function (err,client) {
+        if(err){
+            console.log("Unable to connect to the server",err)
+        }else{
+            console.log("Connected");
+            var db = client.db('startup');
+            var collection = db.collection('users');
+            collection.find({login:req.params.login}).toArray(function (err,result) {
+                if(err){
+                    res.send(err);
+                }
+                else{
+                    console.log(result[0]);
+                    var p=result[0].points;
+                    if(result[0].points==null){
+                        p=1;
+                    }else{
+                        p++;
+                    }
+                    collection.updateOne(result[0],{$set:{points:p}},function (err,result) {
+                        if(err){
+                            res.send(err);
+                        }else{
+
+                            console.log("Points added");
+                            res.redirect('/question/'+req.params.id);
+                        }
+                    });
+                    client.close();
+                }
+            })
+        }
+    })
+    }
+    else{res.redirect('/login')}
+});
 
 router.get('/', function(req, res, next) {
 
@@ -154,6 +196,7 @@ router.get('/removeuser',pages.delUser);
 
 router.post('/ask_question',function (req,res) {
     if(logedIn(req,res)) {
+        if(req.session.logedInUser.points!=null&&req.session.logedInUser.points<=1){
         var MongoClient = mongodb.MongoClient;
         var url = 'mongodb://localhost:27017/startup';
         MongoClient.connect(url, function (err, client) {
@@ -175,15 +218,25 @@ router.post('/ask_question',function (req,res) {
                         console.log("Cannot add a question");
                     }
                     else {
-                        collection.find({}).toArray(function (err, result) {
-                            console.log(result);
+                        collection=db.collection('users');
+                        console.log(req.session.logedInUser);
+                        req.session.logedInUser.points--;
+                        console.log(req.session.logedInUser);
+                        collection.updateOne({login:req.session.logedInUser.login},{$set:{points:req.session.logedInUser.points}},function (err,result) {
+                            if(err){
+                                res.send(err);
+                            }
+                            else{
+                                res.redirect('/');
+                            }
                         });
-                        res.redirect('/');
+
                     }
                 });
 
             }
         })
+        }else{res.send("Not enough points to ask a question!");}
     }
     else{
         res.redirect("/login");
@@ -218,7 +271,7 @@ router.post('/deleteuser',function (req,res) {
 });
 
 
-router.get("/question/:id",function (req,res) {
+router.get("/question/:id/",function (req,res) {
     var MongoClient = mongodb.MongoClient;
     var url = 'mongodb://localhost:27017/startup';
     MongoClient.connect(url,function (err,client) {

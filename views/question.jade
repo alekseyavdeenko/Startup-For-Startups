@@ -10,8 +10,9 @@ block content
             h4=answer.author.user
             h5=answer.text
             h7=answer.date
-            if(logedInUser==answer.author)
-                button(href='/helped', value='This comment helped') This comment helped
+            if(logedInUser!=null&&logedInUser.login==question.author.login&&answer.author.login!=logedInUser.login)
+                form(action='givePoints/#{question.author.login}',method='post')
+                    input(type='submit',value='This comment helped')
     else
         h5 No answers yet
     if(logedInUser)
