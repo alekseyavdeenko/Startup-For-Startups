@@ -29,6 +29,8 @@ router.post('/log',function (req,res) {
 
                     //var logedInUser = results[0];
                     req.session.logedInUser=results[0];
+                    req.session.ifLogedIn=true;
+                    console.log(req.session.logedInUser.login);
                     if(req.body.remember){
                         req.session.cookie.maxAge = 365*24*60*60*1000;
                     }

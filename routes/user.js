@@ -114,10 +114,7 @@ router.post('/:user/changeusersettings',function (req,res) {
 
                 else{
 
-                    req.session.logedInUser.user = req.body.user;
-                    req.session.logedInUser.login = req.body.login;
-                    req.session.logedInUser.password = req.body.password;
-                    req.session.logedInUser.profession=req.body.profession;
+                    req.session.logedInUser=updUser;
                     console.log(req.session.logedInUser.profession);
                     res.redirect('/user/'+req.session.logedInUser.login+'/profileSettings')
                 }

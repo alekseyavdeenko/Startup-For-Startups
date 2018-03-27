@@ -4,18 +4,27 @@ block content
     h1=question.theme
     br
     h3=question.question
-    if(question.answers!=undefined || question.answers!=null)
-        ul
-            each answer, i in question.answers
-                li#user_list_item
-                    a(href='#') #{answer}
+    if(ans.length!=0)
+
+        each answer in ans
+            h4=answer.author.user
+            h5=answer.text
+            h7=answer.date
+            if(logedInUser==answer.author)
+                button(href='/helped', value='This comment helped') This comment helped
     else
         h5 No answers yet
-    form(action="/question/#{question._id}/post_answer" method="post")
+    if(logedInUser)
+        form(action="/question/#{question._id}/post_answer" method="post")
+            p
+                b Enter your answer:
+            p
+                textarea(rows="10" cols="45" name="answer")
+            p
+                input(type="submit" value="Post answer")
+    else
         p
-            b Enter your answer:
-        p
-            textarea(rows="10" cols="45" name="answer")
-        p
-            input(type="submit" value="Post answer")
+            b Please login
+        br
+        button.btn-default(width='70', height='50', onclick='window.location="/login"', value="Login") Login to answer
 
