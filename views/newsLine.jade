@@ -1,13 +1,118 @@
 extends layout
 block content
-    h3=title
+    //h3=title
     br
-    each question, i in questionList
-        a(href='question/#{question._id}/' )
-            h6=question.theme
-            h5=question.question
-            h7=question.author.user
 
-        br
+    //each question, i in questionList
+    //    a(href='question/#{question._id}/' )
+    //        h6=question.theme
+    //        h5=question.question
+    //        h7=question.author.user
+    //
+    //    br
 
+    .mainContainer
+      .titleBar Latest Feed
+      p#description In this section, you can find out the latest questions in yourself areas of interest and keep yourself up-to-date
 
+      .pageNavLinkGroup
+        nav(aria-label='Page navigation example')
+          ul.pagination
+            li.page-item
+              a.page-link(href='#') Previous
+            li.page-item
+              a.page-link(href='#') 1
+            li.page-item
+              a.page-link(href='#') 2
+            li.page-item
+              a.page-link(href='#') 3
+            li.page-item
+              a.page-link(href='#') Next
+
+      .questionList
+        dl.sectionHeaders
+          dt.avatar
+          dd.col-md-6.col-sm-4.main
+            a.question(href='#')
+              span#quest Question
+          dd.col-md-2.col-sm-6.stats
+            a.stat(href='#') 
+              span#repl Replies Views
+          dd.col-md-2.col-sm-6.lastReply
+            a(href='#') 
+              span.lmessage Last Message ↓
+        ol.questionListItems
+
+            .row
+              .avatar
+                span.avatarContainer
+              .col-md-6.col-sm-4.main
+                .questionText
+                  a(href='#') Can you guys please tell me how to build a concurrent neural network on iris dataset?
+                .underscript
+                    a.username(href='#') Aytist228
+                    span.startDate March 28, 2018
+              .col-md-2.col-sm-6.stats
+                dl.major
+                  dt Replies: 2
+                dl.minor
+                  dt Views: 54
+              .col-md-2.col-sm-6.lastReply
+                dl.lastReplyInfo
+                  dt 
+                    a.username(href='#') Aytist228 
+                dd.snoozed
+                a.dateTime(gref='#') Monday at 5:26 PM
+
+            .row
+              .avatar
+                span.avatarContainer
+              .col-md-6.main
+                .questionText
+                  a(href='#') Whats up. Tell me what should I do to become smart and dangerous like 228?
+                .underscript
+                  .questionDate
+                    a.username(href='#') TrueEastboy47
+                    span.startDate March 27, 2018
+              .col-md-2.stats
+                dl.major
+                  dt Replies: 1
+                dl.minor
+                  dt Views: 23
+              .col-md-2.lastReply
+                dl.lastReplyInfo
+                  dt 
+                    a.username(href='#') TrueEastboy47 
+                dd.snoozed
+                a.dateTime(gref='#') Wed at 3:26 PM
+
+            .row
+              .avatar
+                span.avatarContainer
+              .col-md-6.main
+                .questionText
+                  a(href='#') Yo! how do I humiliate a guy in my group??
+                .underscript
+                  .questionDate
+                    a.username(href='#') RealManIsen
+                    span.startDate March 15, 2018
+              .col-md-2.stats
+                dl.major
+                  dt Replies: 4
+                dl.minor
+                  dt Views: 73
+              .col-md-2.lastReply
+                dl.lastReplyInfo
+                  dt 
+                    a.username(href='#') RealManIsen 
+                dd.snoozed
+                a.dateTime(gref='#') Tue at 2:15 AM
+
+      //.section
+      //   .theme Theme: Mining
+      //   br
+      //   .qu Question: How expensive are the farms to mine BTC now?
+      //  br
+      //   .author Author: Maxflexxxx228
+
+   

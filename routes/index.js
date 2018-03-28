@@ -16,6 +16,8 @@ router.get('/logout',function (req,res) {
     res.redirect('/');
 })
 
+router.get("/feed", pages.newsLine)
+
 /* Sign up / Login render */
 router.get("/signup",pages.signup);
 

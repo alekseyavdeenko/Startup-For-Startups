@@ -19,6 +19,9 @@ module.exports.profile = function (req,res) {
     res.render('userProfile',{title:"Profile",logedUser:req.session.logedInUser});
 };
 
+module.exports.newsLine = function(req,res) {
+	res.render('newsLine',{title:"Feed"});
+};
 
 
 module.exports.signup = function (req,res) {
