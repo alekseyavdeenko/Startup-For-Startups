@@ -16,6 +16,7 @@ var mongo = require('mongodb');
 var index = require('./routes/index');
 var user = require('./routes/user');
 var login = require('./routes/login');
+var question = require('./routes/question');
 
 var app = express();
 
@@ -40,17 +41,15 @@ app.use(session({
     saveUninitialized:false,
     resave:false,
     store:new MongoStore({
-
         url:"mongodb://localhost:27017/startup"
     }),
-
     cookie:{maxAge:10*60*1000}
 }));
 
 app.use('/', index);
 app.use('/user', user);
 app.use('/login', login);
-
+app.use('/question', question);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');

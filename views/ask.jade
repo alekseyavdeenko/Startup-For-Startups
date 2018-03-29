@@ -3,6 +3,7 @@ extends layout
 
 
 block content
+    include header
     h1=title
     form#ask_question.center-vertical.form-horizontal.well(method="post",action="/ask_question")
         .form-group

@@ -1,49 +1,36 @@
-nav.navbar.navbar-expand-lg.fixed-top
-  a.navbar-brand(href='#') StartUps For All
-  button.navbar-toggler.navbar-toggler-right(type='button', data-toggle='collapse', data-target='#navbarSupportedContent', aria-controls='navbarSupportedContent', aria-expanded='false', aria-label='Toggle navigation')
-  span
-  span
-  span
-  #navbarSupportedContent.collapse.navbar-collapse
-  ul.navbar-nav.ml-auto.align-items-start.align-items-lg-center
-    li.nav-item
-      a.nav-link.link-scroll(href='#') Home
-    li.nav-item
-      a.nav-link.active(href='#') Text Page
-    .navbar-text
-      // Button trigger modal
-    a.btn.btn-primary.navbar-btn.btn-shadow.btn-gradient(href='#', data-toggle='modal', data-target='#exampleModal') Sign Up
-    nav#header.navbar.navbar-inverse
-      .container-fluid
-        .navbar-header
-          button.navbar-toggle(data-toggle='collapse', data-target='#navbar-collapse-2', type='button')
-            span.icon-bar
-            span.icon-bar
-            span.icon-bar
-          a.navbar-brand.brandcolor(href='/') Site
-        #navbar-collapse-2.collapse.navbar-collapse
-          ul.nav.navbar-nav
-            li.dropdown
-              a.dropdown-toggle(data-toggle='dropdown', href='#', aria-expanded='true')
-                | Doesn't work, needs fixing
-                b.caret
-              ul.dropdown-menu.dropdown-toggle(data-toggle="dropdown")
-                li
-                  a(href="#") action
-                li
-                  a(href="#") another action
-          form.navbar-form.navbar-left
-            .form-group
-              input.form-control(type='text', placeholder='Search')
-            button.btn.btn-default(type='submit' style='margin-left:10px;') Submit
-          ul.nav.navbar-nav.navbar-right
-            li.dropdown
-              a.dropdown-toggle(data-toggle='dropdown', href='#', aria-expanded='false')
-                | MyPage
-                b.caret
-              ul.dropdown-menu
-                li
-                  a(href='#') Link #1
-                li
-                  a(href='#') Link #2
-        // /.navbar-collapse
+nav#header.navbar.navbar-inverse
+  .container-fluid
+    .navbar-header
+      button.navbar-toggle(data-toggle='collapse', data-target='#navbar-collapse-2', type='button')
+        span.icon-bar
+        span.icon-bar
+        span.icon-bar
+      a.navbar-brand.brandcolor(href='/') Site
+    #navbar-collapse-2.collapse.navbar-collapse
+      ul.nav.navbar-nav
+        li.dropdown
+          a.dropdown-toggle(data-toggle='dropdown', href='#', aria-expanded='true')
+            | Doesn't work, needs fixing
+            b.caret
+          ul.dropdown-menu.dropdown-toggle(data-toggle="dropdown")
+            li
+              a(href="#") action
+            li
+              a(href="#") another action
+      form.navbar-form.navbar-left
+        .form-group
+          input.form-control(type='text', placeholder='Search')
+        button.btn.btn-default(type='submit' style='margin-left:10px;') Submit
+      ul.nav.navbar-nav.navbar-right
+        li.dropdown
+          a.dropdown-toggle(data-toggle='dropdown', href='#', aria-expanded='false')
+            | MyPage
+            b.caret
+          ul.dropdown-menu
+            li
+              a(href='#') Link #1
+            li
+              a(href='#') Link #2
+    // /.navbar-collapse
+
+div.zalupa
