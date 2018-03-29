@@ -38,6 +38,30 @@ router.get("/:id/",function (req,res) {
 
 });
 
+function getDate(){
+    var today = new Date();
+    var dd = today.getDate();
+    var mm = today.getMonth()+1;
+    var yyyy = today.getFullYear();
+    var hour = today.getHours();
+    var minutes = today.getMinutes();
+
+    if(dd<10) {
+        dd = '0'+dd
+    }
+    if(mm<10) {
+        mm = '0'+mm
+    }
+    var date={
+        day: dd,
+        month:mm,
+        year:yyyy,
+        hour:hour,
+        minutes:minutes
+    };
+    return date;
+}
+
 
 router.post("/:id/post_answer",function (req,res) {
     var MongoClient = mongodb.MongoClient;
@@ -56,20 +80,11 @@ router.post("/:id/post_answer",function (req,res) {
                 }
                 else if (result) {
                     var q = result[0];
-                    var today = new Date();
-                    var dd = today.getDate();
-                    var mm = today.getMonth()+1;
-                    var yyyy = today.getFullYear();
-                    if(dd<10) {
-                        dd = '0'+dd
-                    }
-                    if(mm<10) {
-                        mm = '0'+mm
-                    }
+                    d=getDate()
                     var ans = {
                         author:req.session.logedInUser,
                         text:req.body.answer,
-                        date:dd+"/"+mm+"/"+yyyy
+                        date:d
                     };
                     if(q.answers.length==0){
                         q.answers=[ans];
@@ -78,12 +93,12 @@ router.post("/:id/post_answer",function (req,res) {
                         q.answers[q.answers.length]=ans;
                     }
 
-                    collection.updateOne({"_id": ObjectId(req.params.id)}, {$set: {answers: q.answers}}, function (err, result) {
+                    collection.updateOne({"_id": ObjectId(req.params.id)}, {$set: {answers: q.answers, lastAnswer: ans, howManyAns:q.howManyAns+1}}, function (err, result) {
                         if (err) {
                             res.send(err);
                         } else if (result) {
                             console.log();
-                            res.redirect('/question/' + req.params.id);
+                            res.redirect('/question/' + req.params.id+"/");
                         }
                         else {
                             res.redirect('/feed');
@@ -131,7 +146,7 @@ router.post('/:id/givePoints/:login',function (req,res) {
                             }else{
 
                                 console.log("Points added");
-                                res.redirect('/question/'+req.params.id);
+                                res.redirect('/question/'+req.params.id+"/");
                             }
                         });
                         client.close();

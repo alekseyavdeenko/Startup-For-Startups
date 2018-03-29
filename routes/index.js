@@ -16,6 +16,8 @@ router.get('/logout',function (req,res) {
     res.redirect('/');
 })
 
+
+
 /* Sign up / Login render */
 router.get("/signup",pages.signup);
 
@@ -128,7 +130,7 @@ router.post('/adduser',function (req,res) {
                 }
                 else{
 
-                    collection.insertOne({user:req.body.user , login: req.body.login, password: req.body.password , img:'../../images/default_avatar.gif'},function (err,result) {
+                    collection.insertOne({user:req.body.user , login: req.body.login, password: req.body.password , img:'../../images/default_avatar.gif',points:0},function (err,result) {
                         if(err){
                             console.log("Cannot add new student to database",err);
                         }else{
@@ -154,9 +156,34 @@ router.get('/ask',pages.ask);
 router.get('/removeuser',pages.delUser);
 
 
+function getDate(){
+    var today = new Date();
+    var dd = today.getDate();
+    var mm = today.getMonth()+1;
+    var yyyy = today.getFullYear();
+    var hour = today.getHours();
+    var minutes = today.getMinutes();
+
+    if(dd<10) {
+        dd = '0'+dd
+    }
+    if(mm<10) {
+        mm = '0'+mm
+    }
+    var date={
+        day: dd,
+        month:mm,
+        year:yyyy,
+        hour:hour,
+        minutes:minutes
+    };
+    return date;
+}
+
+
 router.post('/ask_question',function (req,res) {
     if(logedIn(req,res)) {
-        if(req.session.logedInUser.points!=null&&req.session.logedInUser.points<=1){
+        if(req.session.logedInUser.points!=null&&req.session.logedInUser.points>=1){
         var MongoClient = mongodb.MongoClient;
         var url = 'mongodb://localhost:27017/startup';
         MongoClient.connect(url, function (err, client) {
@@ -167,12 +194,16 @@ router.post('/ask_question',function (req,res) {
                 var db = client.db('startup');
                 var collection = db.collection('questions');
 
-
+                d=getDate();
+                console.log(d);
                 collection.insert({
                     theme: req.body.theme,
                     question: req.body.question,
+                    date: d,
                     author: req.session.logedInUser,
-                    answers: []
+                    answers: [],
+                    howManyAns:0,
+                    lastAnswer: null
                 }, function (err, result) {
                     if (err) {
                         console.log("Cannot add a question");
@@ -193,10 +224,11 @@ router.post('/ask_question',function (req,res) {
 
                     }
                 });
-
             }
         })
-        }else{res.send("Not enough points to ask a question!");}
+        }else{
+            console.log(req.session.logedInUser);
+            res.send("Not enough points to ask a question!");}
     }
     else{
         res.redirect("/login");
@@ -269,6 +301,31 @@ router.get('/dropQuestions',function (req,res) {
     });
 });
 
+router.get("/unlimPoints",function (req,res) {
+    var MongoClient = mongodb.MongoClient;
+    var url = 'mongodb://localhost:27017/startup';
+    MongoClient.connect(url, function (err, client) {
+        if (err) {
+            console.log("Failed to connect to server", err);
+        } else {
+            console.log("Connected");
+            var db = client.db('startup');
+            var collection = db.collection('users');
+            collection.updateOne({login:req.session.logedInUser.login},{$set:{points:1000}},function (err,result) {
+                if(err){
+                    res.send(err);
+                }
+                else{
+                    req.session.logedInUser.points=100;
+                    console.log(result[0]);
+                    res.redirect('/');
+                }
+                })
+            }
+            })
+});
+
+
 router.get('/userlist',function (req,res) {
     var MongoClient = mongodb.MongoClient;
     var url = 'mongodb://localhost:27017/startup';
@@ -296,6 +353,5 @@ router.get('/userlist',function (req,res) {
             }
     });
 });
-
 
 module.exports = router;
