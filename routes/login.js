@@ -3,10 +3,16 @@ var pages = require('../pages/pages');
 var router = express.Router();
 var mongodb = require('mongodb');
 
-router.get("/",pages.login);
+router.get("/",function (req,res) {
+   res.render('login',{success:req.session.success,ownErrors:req.session.ownErrors});
+
+});
 
 
-router.post('/log',function (req,res) {
+router.post('/log',function (req,res,next) {
+    req.session.errors=null;
+    req.session.ownErrors=null;
+    req.session.success=null;
     var MongoClient = mongodb.MongoClient;
 
     var url = 'mongodb://localhost:27017/startup';
@@ -27,18 +33,26 @@ router.post('/log',function (req,res) {
 
                 else if(results.length){
 
-                    //var logedInUser = results[0];
                     req.session.logedInUser=results[0];
                     req.session.ifLogedIn=true;
                     console.log(req.session.logedInUser.login);
                     if(req.body.remember){
                         req.session.cookie.maxAge = 365*24*60*60*1000;
                     }
-                    res.redirect('/')
+                    if(req.session.whereFrom!=null){
+                        var w=req.session.whereFrom;
+                        req.session.whereFrom=null;
+                        res.redirect('/'+w);
+                    }
+                    else{
+                        res.redirect('/');
+                    }
                 }
                 else {
-                    console.log("Not reg");
 
+                    req.session.success=false;
+                    req.session.ownErrors=['User with such login is not registered'];
+                    console.log("Not reg");
                     res.redirect('/login');
                 }
                 client.close()

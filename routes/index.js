@@ -18,8 +18,6 @@ router.get('/logout',function (req,res) {
 
 
 
-/* Sign up / Login render */
-router.get("/signup",pages.signup);
 
 
 
@@ -103,55 +101,95 @@ router.get('/feed',function (req,res) {
     });
 })
 
-router.get('/newuser',pages.newUser);
+router.get('/signup',function (req,res) {
+    res.render('signup', { success:req.session.success, errors:req.session.errors ,ownErrors:req.session.ownErrors});
+
+});
 
 router.post('/adduser',function (req,res) {
+    req.session.errors=null;
+    req.session.ownErrors=null;
+    req.session.success=null;
+
     var MongoClient = mongodb.MongoClient;
 
     var url = 'mongodb://localhost:27017/startup';
 
-    MongoClient.connect(url,function (err,client) {
-        if(err){
-            console.log("Unable to connect to server");
-        }
-        else{
-            console.log("Connected");
-            var db = client.db('startup');
+    req.check('password','Password should be 4-14 digits length').isLength({min:4,max:14});
+    req.check('password','Password confirmation failed').equals(req.body.confirm_password);
+    req.check('login','Login should be 4-14 digits length').isLength({min:4,max:14});
+    req.check('user','Field name should not be empty').isLength({min:1,max:20});
 
-            var collection = db.collection("users");
-            collection.find({login: req.body.login}, function (err,result) {
-                if(err){
-                    console.log("Cannot add to db");
-                }
-                else if(result.length){
-                    res.redirect('/signup');
-                    console.log("Already registered");
-                    client.close();
-                }
-                else{
-
-                    collection.insertOne({user:req.body.user , login: req.body.login, password: req.body.password , img:'../../images/default_avatar.gif',points:0},function (err,result) {
-                        if(err){
-                            console.log("Cannot add new student to database",err);
-                        }else{
-                            res.redirect('/login');
-                            console.log(req.body.login);
-                        }
-                        client.close()
-                    });
-                }
-            });
+    if(req.validationErrors()){
+        console.log(req.validationErrors());
+        req.session.errors=req.validationErrors();
+        req.session.success=false;
+        res.redirect('/signup');
+    }
+    else {
 
 
+        MongoClient.connect(url, function (err, client) {
+            if (err) {
+                console.log("Unable to connect to server");
+            }
+            else {
+                console.log("Connected");
+                var db = client.db('startup');
 
-        }
-    })
+                var collection = db.collection("users");
+                collection.find({login:req.body.login}).toArray(function (err,result) {
+                    if (err) {
+                        console.log("Cannot add to db");
+                    }
+                    console.log(result);
+                    if (result!=null && result[0]!=null) {
+
+
+                        req.session.success=false;
+                        var myErrors=['User with such login is already registered'];
+                        req.session.ownErrors=myErrors;
+                        res.redirect('/signup');
+
+                        console.log("Already registered");
+                        client.close();
+                    }
+                    else {
+
+                        collection.insertOne({
+                            user: req.body.user,
+                            login: req.body.login,
+                            password: req.body.password,
+                            img: '../../images/default_avatar.gif',
+                            points: 0
+                        }, function (err, result) {
+                            if (err) {
+                                console.log("Cannot add new student to database", err);
+                            } else {
+                                res.redirect('/login');
+                                console.log(req.body.login);
+                            }
+                            client.close()
+                        });
+                    }
+                });
+
+
+            }
+        })
+    }
 });
+
 
 
 router.get('/landing',pages.landing);
 
-router.get('/ask',pages.ask);
+router.get('/ask',function (req,res) {
+    res.render('ask', { success:req.session.success, errors:req.session.errors ,ownErrors:req.session.ownErrors});
+    req.session.errors=null;
+    req.session.ownErrors=null;
+    req.session.success=null;
+});
 
 router.get('/removeuser',pages.delUser);
 
@@ -184,54 +222,71 @@ function getDate(){
 router.post('/ask_question',function (req,res) {
     if(logedIn(req,res)) {
         if(req.session.logedInUser.points!=null&&req.session.logedInUser.points>=1){
-        var MongoClient = mongodb.MongoClient;
-        var url = 'mongodb://localhost:27017/startup';
-        MongoClient.connect(url, function (err, client) {
-            if (err) {
-                console.log("Failed to connect to server", err);
-            } else {
-                console.log("Connected");
-                var db = client.db('startup');
-                var collection = db.collection('questions');
-
-                d=getDate();
-                console.log(d);
-                collection.insert({
-                    theme: req.body.theme,
-                    question: req.body.question,
-                    date: d,
-                    author: req.session.logedInUser,
-                    answers: [],
-                    howManyAns:0,
-                    lastAnswer: null
-                }, function (err, result) {
+            req.session.errors=null;
+            req.session.ownErrors=null;
+            req.session.success=null;
+            req.check('theme','Theme should be selected').isLength({min:1});
+            req.check('quetion','Question field should not be empty').isLength({min:1});
+            if(req.validationErrors()){
+                console.log(req.validationErrors());
+                req.session.errors=req.validationErrors();
+                req.session.success=false;
+                res.redirect('ask');
+            }
+            else {
+                var MongoClient = mongodb.MongoClient;
+                var url = 'mongodb://localhost:27017/startup';
+                MongoClient.connect(url, function (err, client) {
                     if (err) {
-                        console.log("Cannot add a question");
-                    }
-                    else {
-                        collection=db.collection('users');
-                        console.log(req.session.logedInUser);
-                        req.session.logedInUser.points--;
-                        console.log(req.session.logedInUser);
-                        collection.updateOne({login:req.session.logedInUser.login},{$set:{points:req.session.logedInUser.points}},function (err,result) {
-                            if(err){
-                                res.send(err);
+                        console.log("Failed to connect to server", err);
+                    } else {
+                        console.log("Connected");
+                        var db = client.db('startup');
+                        var collection = db.collection('questions');
+
+                        var d = getDate();
+                        console.log(d);
+                        collection.insert({
+                            theme: req.body.theme,
+                            question: req.body.question,
+                            date: d,
+                            author: req.session.logedInUser,
+                            answers: [],
+                            howManyAns: 0,
+                            lastAnswer: null
+                        }, function (err, result) {
+                            if (err) {
+                                console.log("Cannot add a question");
                             }
-                            else{
-                                res.redirect('/');
+                            else {
+                                collection = db.collection('users');
+                                console.log(req.session.logedInUser);
+                                req.session.logedInUser.points--;
+                                console.log(req.session.logedInUser);
+                                collection.updateOne({login: req.session.logedInUser.login}, {$set: {points: req.session.logedInUser.points}}, function (err, result) {
+                                    if (err) {
+                                        res.send(err);
+                                    }
+                                    else {
+                                        res.redirect('/');
+                                    }
+                                });
+
                             }
                         });
-
                     }
-                });
+                })
             }
-        })
         }else{
             console.log(req.session.logedInUser);
-            res.send("Not enough points to ask a question!");}
+            req.session.ownErrors=['Not enough points to ask question('];
+            req.session.success=false;
+            res.redirect('ask');
+        }
     }
     else{
-        res.redirect("/login");
+        req.session.whereFrom='/ask';
+        res.redirect('login')
     }
 });
 

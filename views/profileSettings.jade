@@ -3,6 +3,7 @@ include header
 
 block content
     include header
+    include validationErrors
     nav#header.navbar.navbar-inverse
         .container-fluid
             .navbar-header
@@ -40,61 +41,36 @@ block content
 
     div.zalupa
     h3=title
-    form#user_image(name="user_image",method='post',action='uploadimage',enctype="multipart/form-data")
+    form#user_image(name="user_image", method='post', action='uploadimage', enctype="multipart/form-data")
         if(user.img != null)
-            img#input_img(name="image",src='#{user.img}',width = "120px",height='150px')
+            img#input_img(name="image", src='#{user.img}', width = "120px", height='150px')
         else
-            img#input_img(name="image",src='../../images/default_avatar.gif', width = "120px",height='150px')
+            img#input_img(name="image", src='../../images/default_avatar.gif', width = "120px", height='150px')
 
-        input#input_image.btn.btn-default(type="file",name="myImage")
+        input#input_image.btn.btn-default(type="file", name="myImage")
         button#change_avatar.btn.btn-default(type="submit") submit
-    form#form_update_user(name="changeUserSettings",method="post",action="changeusersettings")
-        //span Name
-        //span &nbsp
-        //input#input_name.text-fields.form-control(type="text",placeholder="Your name",name="user",value="#{user.user}")
-        //br
-        //br
+    form#form_update_user(name="changeUserSettings", method="post", action="changeusersettings")
         .form-group
             label(for='input_name') Name
-            input#input_name.text-fields.form-control(type='text',placeholder="Your name",name="user",value="#{user.user}")
+            input#input_name.text-fields.form-control(type='text', placeholder="Your name", name="user", value="#{user.user}")
         .form-group
             label(for='input_login') Login
-            input#input_login.text-fields.form-control(type='text',placeholder="Login",name="login",value="#{user.login}")
-        //span Login
-        //span &nbsp
-        //input#input_logi.text-fields.form-control(type="text",placeholder="Login",name="login",value="#{user.login}")
-        //br
-        //br
-        //br
-
-        //span Password
-        //span &nbsp
-        //input.text-fields.form-control(type="text",placeholder="Password",name="password",value="#{user.password}")
+            input#input_login.text-fields.form-control(type='text', placeholder="Login", name="login", value="#{user.login}")
         .form-group
             label(for='input_password') Password
-            input#input_password.text-fields.form-control(type='text',
-            placeholder="Password",name="password",value="#{user.password}")
+            input#input_password.text-fields.form-control(type='text', placeholder="Password", name="password", value="#{user.password}")
 
-        //span Password confirmation
-        //span &nbsp
-        //input.text-fields.form-control(type="password",placeholder="Confirm your password",name="password",value="#{user.password}")
         .form-group
             label(for='password_confirmation') Password confirmation
-            input#password_confirmation.text-fields.form-control(type='password',
-            placeholder="Confirm your password",name="password_confirm",value="#{user.password}")
+            input#password_confirmation.text-fields.form-control(type='password', placeholder="Confirm your password", name="password_confirm", value="#{user.password}")
 
-        //span Profession
-        //span &nbsp
-        //if(user.profession)
-        //    input#input_profession(type="text",placeholder="Profession",name="profession",value="#{user.profession}")
-        //else
-        //    input#input_profession(type="text",placeholder="Profession",name="profession")
+
         .form-group
             label Profession
             if(user.profession)
-                input#input_profession.text-fields.form-control(type="text",placeholder="Profession",name="profession",value="#{user.profession}")
+                input#input_profession.text-fields.form-control(type="text", placeholder="Profession", name="profession", value="#{user.profession}")
             else
-                input#input_profession.text-fields.form-control(type="text",placeholder="Profession",name="profession")
+                input#input_profession.text-fields.form-control(type="text", placeholder="Profession", name="profession")
         br
         br
         button#submit_changes_userSettings.btn.btn-default(type="submit") submit

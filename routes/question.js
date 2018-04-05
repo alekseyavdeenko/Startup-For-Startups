@@ -14,6 +14,9 @@ function logedIn(req,res) {
 router.get("/:id/",function (req,res) {
     var MongoClient = mongodb.MongoClient;
     var url = 'mongodb://localhost:27017/startup';
+    req.session.errors=null;
+    req.session.ownErrors=null;
+    req.session.success=null;
     MongoClient.connect(url,function (err,client) {
         if(err){
             console.log("Failed to connect to server",err);
@@ -25,8 +28,15 @@ router.get("/:id/",function (req,res) {
                 if(err){
                     res.send(err);
                 }else if(result){
+                    if(req.session.logedInUser==null){
+                        req.session.whereFrom='question/'+req.params.id+"/";
+                    }
+                    else{
+                        req.session.whereFrom=null;
+                    }
 
-                    res.render('question',{question:result[0],ans:result[0].answers,logedInUser:req.session.logedInUser})
+                    res.render('question',{question:result[0],ans:result[0].answers,logedInUser:req.session.logedInUser,errors:req.session.errors,ownErrors:req.session.ownErrors,success:req.session.success})
+
                 }
                 else{
                     res.redirect('/feed');
@@ -64,53 +74,72 @@ function getDate(){
 
 
 router.post("/:id/post_answer",function (req,res) {
-    var MongoClient = mongodb.MongoClient;
-    var url = 'mongodb://localhost:27017/startup';
-    MongoClient.connect(url,function (err,client) {
-        if(err){
-            console.log("Failed to connect to server",err);
-        }else {
-            console.log("Connected");
-            var db = client.db('startup');
-            var collection = db.collection('questions');
+    req.session.whereFrom=null;
+    req.session.errors=null;
+    req.session.ownErrors=null;
+    req.session.success=null;
+    req.check('answer','Answer field should not be empty').isLength({min:1});
+    if(req.validationErrors()){
+        req.session.success=false;
+        req.session.errors=req.validationErrors();
+        res.redirect('/question/'+req.params.id+'/');
+    }
+    else {
+        var MongoClient = mongodb.MongoClient;
+        var url = 'mongodb://localhost:27017/startup';
 
-            collection.find({"_id": ObjectId(req.params.id)}).toArray (function (err, result) {
-                if (err) {
-                    res.send(err);
-                }
-                else if (result) {
-                    var q = result[0];
-                    d=getDate()
-                    var ans = {
-                        author:req.session.logedInUser,
-                        text:req.body.answer,
-                        date:d
-                    };
-                    if(q.answers.length==0){
-                        q.answers=[ans];
-                    }
-                    else{
-                        q.answers[q.answers.length]=ans;
-                    }
+        MongoClient.connect(url, function (err, client) {
+            if (err) {
+                console.log("Failed to connect to server", err);
+            } else {
+                console.log("Connected");
+                var db = client.db('startup');
+                var collection = db.collection('questions');
 
-                    collection.updateOne({"_id": ObjectId(req.params.id)}, {$set: {answers: q.answers, lastAnswer: ans, howManyAns:q.howManyAns+1}}, function (err, result) {
-                        if (err) {
-                            res.send(err);
-                        } else if (result) {
-                            console.log();
-                            res.redirect('/question/' + req.params.id+"/");
+                collection.find({"_id": ObjectId(req.params.id)}).toArray(function (err, result) {
+                    if (err) {
+                        res.send(err);
+                    }
+                    else if (result) {
+                        var q = result[0];
+                        d = getDate()
+                        var ans = {
+                            author: req.session.logedInUser,
+                            text: req.body.answer,
+                            date: d
+                        };
+                        if (q.answers.length == 0) {
+                            q.answers = [ans];
                         }
                         else {
-                            res.redirect('/feed');
+                            q.answers[q.answers.length] = ans;
                         }
-                        client.close();
-                    })
-                }
-            })
-        }
+
+                        collection.updateOne({"_id": ObjectId(req.params.id)}, {
+                            $set: {
+                                answers: q.answers,
+                                lastAnswer: ans,
+                                howManyAns: q.howManyAns + 1
+                            }
+                        }, function (err, result) {
+                            if (err) {
+                                res.send(err);
+                            } else if (result) {
+                                console.log();
+                                res.redirect('/question/' + req.params.id + "/");
+                            }
+                            else {
+                                res.redirect('/feed');
+                            }
+                            client.close();
+                        })
+                    }
+                })
+            }
 
 
-    });
+        });
+    }
 
 });
 
