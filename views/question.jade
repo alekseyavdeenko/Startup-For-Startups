@@ -12,7 +12,7 @@ block content
             h4=answer.author.user
             h5=answer.text
             h7=answer.date.day+"/"+answer.date.month+"/"+answer.date.year
-            if(logedInUser!=null&&logedInUser.login==question.author.login&&answer.author.login!=logedInUser.login)
+            if(logedInUser!=null&&logedInUser.login==question.author.login&&answer.author.login!=logedInUser.login&&!question.closed)
                 form(action='givePoints/#{answer.author.login}',method='post')
                     input(type='submit',value='This comment helped')
     else

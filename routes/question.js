@@ -14,9 +14,9 @@ function logedIn(req,res) {
 router.get("/:id/",function (req,res) {
     var MongoClient = mongodb.MongoClient;
     var url = 'mongodb://localhost:27017/startup';
-    req.session.errors=null;
-    req.session.ownErrors=null;
-    req.session.success=null;
+    errors=null;
+    ownErrors=null;
+    success=null;
     MongoClient.connect(url,function (err,client) {
         if(err){
             console.log("Failed to connect to server",err);
@@ -35,7 +35,7 @@ router.get("/:id/",function (req,res) {
                         req.session.whereFrom=null;
                     }
 
-                    res.render('question',{question:result[0],ans:result[0].answers,logedInUser:req.session.logedInUser,errors:req.session.errors,ownErrors:req.session.ownErrors,success:req.session.success})
+                    res.render('question',{question:result[0],ans:result[0].answers,logedInUser:req.session.logedInUser,errors:errors,ownErrors:ownErrors,success:success})
 
                 }
                 else{
@@ -74,14 +74,14 @@ function getDate(){
 
 
 router.post("/:id/post_answer",function (req,res) {
-    req.session.whereFrom=null;
-    req.session.errors=null;
-    req.session.ownErrors=null;
-    req.session.success=null;
+    whereFrom=null;
+    errors=null;
+    ownErrors=null;
+    success=null;
     req.check('answer','Answer field should not be empty').isLength({min:1});
     if(req.validationErrors()){
-        req.session.success=false;
-        req.session.errors=req.validationErrors();
+        success=false;
+        errors=req.validationErrors();
         res.redirect('/question/'+req.params.id+'/');
     }
     else {
@@ -174,17 +174,34 @@ router.post('/:id/givePoints/:login',function (req,res) {
                                 res.send(err);
                             }else{
 
-                                console.log("Points added");
-                                res.redirect('/question/'+req.params.id+"/");
+                                var collection = db.collection('questions');
+                                collection.find({"_id":ObjectId(req.params.id)}).toArray(function (err,result) {
+                                    if(err)
+                                        res.send(err)
+                                    else{
+                                        var qu=result[0];
+                                        qu.closed=true;
+                                        collection.updateOne({"_id": ObjectId(req.params.id)}, {$set:qu}, function (err, result) {
+                                            if(err)
+                                                res.send(err);
+                                            else
+                                                res.redirect('/question/'+req.params.id+"/");
+                                        })
+                                    }
+
+                                })
                             }
+
                         });
-                        client.close();
                     }
-                })
+                });
+
             }
         })
     }
-    else{res.redirect('/login')}
+
+    else
+        res.redirect('/login')
 });
 
 module.exports = router;

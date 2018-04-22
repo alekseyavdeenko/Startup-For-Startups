@@ -7,8 +7,9 @@ var pages = require('../pages/pages');
 var validator=require("express-validator");
 /* GET home page. */
 
-
-
+global.errors=null;
+global.ownErrors=null;
+global.success=true;
 router.get('/logout',function (req,res) {
     //logedInUser = null;
     console.log(req.session.logedInUser.user);
@@ -102,14 +103,14 @@ router.get('/feed',function (req,res) {
 })
 
 router.get('/signup',function (req,res) {
-    res.render('signup', { success:req.session.success, errors:req.session.errors ,ownErrors:req.session.ownErrors});
+    res.render('signup', { success:success, errors:errors ,ownErrors:ownErrors});
 
 });
 
 router.post('/adduser',function (req,res) {
-    req.session.errors=null;
-    req.session.ownErrors=null;
-    req.session.success=null;
+    errors=null;
+    ownErrors=null;
+    success=null;
 
     var MongoClient = mongodb.MongoClient;
 
@@ -122,8 +123,8 @@ router.post('/adduser',function (req,res) {
 
     if(req.validationErrors()){
         console.log(req.validationErrors());
-        req.session.errors=req.validationErrors();
-        req.session.success=false;
+        errors=req.validationErrors();
+        success=false;
         res.redirect('/signup');
     }
     else {
@@ -147,8 +148,7 @@ router.post('/adduser',function (req,res) {
 
 
                         req.session.success=false;
-                        var myErrors=['User with such login is already registered'];
-                        req.session.ownErrors=myErrors;
+                        myErrors=['User with such login is already registered'];
                         res.redirect('/signup');
 
                         console.log("Already registered");
@@ -185,10 +185,10 @@ router.post('/adduser',function (req,res) {
 router.get('/landing',pages.landing);
 
 router.get('/ask',function (req,res) {
-    res.render('ask', { success:req.session.success, errors:req.session.errors ,ownErrors:req.session.ownErrors});
-    req.session.errors=null;
-    req.session.ownErrors=null;
-    req.session.success=null;
+    res.render('ask', { success:success, errors:errors ,ownErrors:ownErrors});
+    errors=null;
+    ownErrors=null;
+    success=null;
 });
 
 router.get('/removeuser',pages.delUser);
@@ -222,15 +222,15 @@ function getDate(){
 router.post('/ask_question',function (req,res) {
     if(logedIn(req,res)) {
         if(req.session.logedInUser.points!=null&&req.session.logedInUser.points>=1){
-            req.session.errors=null;
-            req.session.ownErrors=null;
-            req.session.success=null;
+            errors=null;
+            ownErrors=null;
+            success=null;
             req.check('theme','Theme should be selected').isLength({min:1});
-            req.check('quetion','Question field should not be empty').isLength({min:1});
+            req.check('question','Question field should not be empty').isLength({min:1});
             if(req.validationErrors()){
                 console.log(req.validationErrors());
-                req.session.errors=req.validationErrors();
-                req.session.success=false;
+                errors=req.validationErrors();
+                success=false;
                 res.redirect('ask');
             }
             else {
@@ -253,6 +253,7 @@ router.post('/ask_question',function (req,res) {
                             author: req.session.logedInUser,
                             answers: [],
                             howManyAns: 0,
+                            closed:false,
                             lastAnswer: null
                         }, function (err, result) {
                             if (err) {
@@ -279,8 +280,8 @@ router.post('/ask_question',function (req,res) {
             }
         }else{
             console.log(req.session.logedInUser);
-            req.session.ownErrors=['Not enough points to ask question('];
-            req.session.success=false;
+            ownErrors=['Not enough points to ask question('];
+            success=false;
             res.redirect('ask');
         }
     }

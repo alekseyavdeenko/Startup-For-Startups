@@ -4,15 +4,15 @@ var router = express.Router();
 var mongodb = require('mongodb');
 
 router.get("/",function (req,res) {
-   res.render('login',{success:req.session.success,ownErrors:req.session.ownErrors});
+   res.render('login',{success:success,ownErrors:ownErrors});
 
 });
 
 
 router.post('/log',function (req,res,next) {
-    req.session.errors=null;
-    req.session.ownErrors=null;
-    req.session.success=null;
+    errors=null;
+    ownErrors=null;
+    success=null;
     var MongoClient = mongodb.MongoClient;
 
     var url = 'mongodb://localhost:27017/startup';
@@ -50,8 +50,8 @@ router.post('/log',function (req,res,next) {
                 }
                 else {
 
-                    req.session.success=false;
-                    req.session.ownErrors=['User with such login is not registered'];
+                    success=false;
+                    ownErrors=['User with such login is not registered'];
                     console.log("Not reg");
                     res.redirect('/login');
                 }
