@@ -41,7 +41,7 @@ app.use(session({
     saveUninitialized:false,
     resave:false,
     store:new MongoStore({
-        url:"mongodb://localhost:27017/startup"
+        url:"mongodb://startup:startup228@ds247759.mlab.com:47759/startup"
     }),
     cookie:{maxAge:10*60*1000}
 }));

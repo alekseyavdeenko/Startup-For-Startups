@@ -62,9 +62,7 @@ router.post('/:user/uploadimage',function (req,res) {
 
                         var MongoClient = mongodb.MongoClient;
 
-                        var url = 'mongodb://localhost:27017/startup';
-
-                        MongoClient.connect(url, function (err, client) {
+                        MongoClient.connect(connectUrl, function (err, client) {
                             if (err) {
                                 console.log("Cannot connect to db");
                             } else {
@@ -129,8 +127,7 @@ router.post('/:user/changeusersettings',function (req,res) {
         success=null;
         var MongoClient = mongodb.MongoClient;
 
-        var url = 'mongodb://localhost:27017/startup';
-        MongoClient.connect(url, function (err, client) {
+        MongoClient.connect(connectUrl, function (err, client) {
             if (err) {
                 console.log("Cannot connect to db");
             } else {

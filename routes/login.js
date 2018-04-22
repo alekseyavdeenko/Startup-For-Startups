@@ -15,10 +15,9 @@ router.post('/log',function (req,res,next) {
     success=null;
     var MongoClient = mongodb.MongoClient;
 
-    var url = 'mongodb://localhost:27017/startup';
 
 
-    MongoClient.connect(url,function (err,client) {
+    MongoClient.connect(connectUrl,function (err,client) {
         if(err){
             console.log("Cannot connect to db");
         }else {

@@ -13,11 +13,10 @@ function logedIn(req,res) {
 
 router.get("/:id/",function (req,res) {
     var MongoClient = mongodb.MongoClient;
-    var url = 'mongodb://localhost:27017/startup';
     errors=null;
     ownErrors=null;
     success=null;
-    MongoClient.connect(url,function (err,client) {
+    MongoClient.connect(connectUrl,function (err,client) {
         if(err){
             console.log("Failed to connect to server",err);
         }else{
@@ -86,9 +85,8 @@ router.post("/:id/post_answer",function (req,res) {
     }
     else {
         var MongoClient = mongodb.MongoClient;
-        var url = 'mongodb://localhost:27017/startup';
 
-        MongoClient.connect(url, function (err, client) {
+        MongoClient.connect(connectUrl, function (err, client) {
             if (err) {
                 console.log("Failed to connect to server", err);
             } else {
@@ -148,9 +146,7 @@ router.post('/:id/givePoints/:login',function (req,res) {
     if(logedIn(req,res)){
         var MongoClient = mongodb.MongoClient;
 
-        var url = 'mongodb://localhost:27017/startup';
-
-        MongoClient.connect(url,function (err,client) {
+        MongoClient.connect(connectUrl,function (err,client) {
             if(err){
                 console.log("Unable to connect to the server",err)
             }else{
