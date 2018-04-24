@@ -5,19 +5,24 @@ var mongodb = require('mongodb');
 var ObjectId = require('mongodb').ObjectID;
 var pages = require('../pages/pages');
 var validator=require("express-validator");
+global.btoa = require('btoa');
+global.atob = require('atob');
 /* GET home page. */
 
 global.errors=null;
 global.ownErrors=null;
 global.success=true;
-global.connectUrl="mongodb://startup:startup228@ds247759.mlab.com:47759/startup";
-//global.connectUrl="mongodb://localhost:27017/startup";
+//global.connectUrl="mongodb://startup:startup228@ds247759.mlab.com:47759/startup";
+global.connectUrl="mongodb://localhost:27017/startup";
+global.professions=["IT","Design","Math","Physics","Biology",""];
+
+
 router.get('/logout',function (req,res) {
     //logedInUser = null;
     console.log(req.session.logedInUser.user);
     req.session.destroy();
     res.redirect('/');
-})
+});
 
 
 
@@ -62,6 +67,7 @@ router.get('/feed/:id',function (req,res) {
                             hasNext=false;
                         if(result[(id*10)-1]==null||result[(id*10)-1]==undefined)
                             hasPrev=false;
+                        result.reverse();
                         res.render('newsLine',{
                             title:"Feed",
                             questionList:result.slice(id*10,(id+1)*10),
@@ -86,6 +92,7 @@ router.get('/feed/:id',function (req,res) {
                             hasNext=false;
                         if(result[(id)*10-1]==null||result[(id)*10+-1]==undefined)
                             hasPrev=false;
+                        result.reverse();
                         res.render('newsLine',{
                             title:"Feed",
                             questionList:result.slice(id*10,(id+1)*10),
@@ -103,6 +110,7 @@ router.get('/feed/:id',function (req,res) {
                                     hasNext=false;
                                 if(result[(id)*10-1]==null||result[(id)*10+-1]==undefined)
                                     hasPrev=false;
+                                result.reverse();
                                 res.render('newsLine',{
                                     title:"Feed",
                                     questionList:result.slice(id*10,(id+1)*10),
@@ -181,7 +189,7 @@ router.post('/adduser',function (req,res) {
                         collection.insertOne({
                             user: req.body.user,
                             login: req.body.login,
-                            password: req.body.password,
+                            password: btoa(req.body.password),
                             img: '../../images/default_avatar.gif',
                             points: 0
                         }, function (err, result) {
@@ -326,7 +334,7 @@ router.post('/deleteuser',function (req,res) {
             var db = client.db('startup');
             var collection = db.collection('users');
 
-            collection.removeOne({user:req.body.user,login:req.body.login,password:req.body.password},function (err,result) {
+            collection.removeOne({user:req.body.user,login:btoa(req.body.login),password:req.body.password},function (err,result) {
                 if(err){
                     console.log("Cannot delete");
                 }else{

@@ -25,7 +25,7 @@ router.post('/log',function (req,res,next) {
             var db=client.db('startup');
             var collection = db.collection("users");
 
-            collection.find({login:req.body.login,password:req.body.password}).toArray(function(err, results) {
+            collection.find({login:req.body.login,password:btoa(req.body.password)}).toArray(function(err, results) {
                 if(err){
                     console.log("You are not registered")
                 }
@@ -34,7 +34,6 @@ router.post('/log',function (req,res,next) {
 
                     req.session.logedInUser=results[0];
                     req.session.ifLogedIn=true;
-                    console.log(req.session.logedInUser.login);
                     if(req.body.remember){
                         req.session.cookie.maxAge = 365*24*60*60*1000;
                     }

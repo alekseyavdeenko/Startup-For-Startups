@@ -4,8 +4,6 @@ include header
 block content
     include header
     include validationErrors
-
-
     div.otstup
     h3=title
     #all
@@ -30,11 +28,11 @@ block content
                 input#input_login.text-fields.form-control(type='text', placeholder="Login", name="login", value="#{user.login}")
             .form-group
                 label(for='input_password') Password
-                input#input_password.text-fields.form-control(type='text', placeholder="Password", name="password", value="#{user.password}")
+                input#input_password.text-fields.form-control(type='text', placeholder="Password", name="password", value="#{atob(user.password)}")
 
             .form-group
                 label(for='password_confirmation') Password confirmation
-                input#password_confirmation.text-fields.form-control(type='password', placeholder="Confirm your password", name="password_confirm", value="#{user.password}")
+                input#password_confirmation.text-fields.form-control(type='password', placeholder="Confirm your password", name="password_confirm", value="#{atob(user.password)}")
 
 
             .form-group

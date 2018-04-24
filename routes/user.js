@@ -32,20 +32,17 @@ router.post('/:user/uploadimage',function (req,res) {
     var form = new formidable.IncomingForm();
     form.parse(req, function (err, fields, files) {
         if(files.myImage!=undefined) {
-
             var oldpath = files.myImage.path;
-
             var newpath = 'c:\\users\\pc\\webstormprojects\\startup-for-startups\\uploads\\';
-
             var extension = files.myImage.name.substr(files.myImage.name.length - 3);
-
+            console.log(extension);
             if(extension!='jpg'&&extension!='png'){
                 ownErrors=['We support only jpg and png extensions'];
+
                 success=false;
                 res.redirect("/user/"+req.session.logedInUser.login+"/profileSettings");
             }
             else {
-
                 errors=null;
                 ownErrors=null;
                 success=null;
@@ -101,8 +98,9 @@ router.post('/:user/uploadimage',function (req,res) {
                 });
             }
         }
-
         else{
+            ownErrors=['We support only jpg and png extensions'];
+            success=false;
             res.redirect('/user/' + req.session.logedInUser.login + '/profileSettings');
         }
 })});
@@ -137,7 +135,7 @@ router.post('/:user/changeusersettings',function (req,res) {
                 var updUser = {
                     user: req.body.user,
                     login: req.body.login,
-                    password: req.body.password,
+                    password: btoa(req.body.password),
                     img: req.session.logedInUser.img,
                     points:req.session.logedInUser.points,
                     profession: req.body.profession

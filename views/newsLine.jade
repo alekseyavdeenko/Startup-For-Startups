@@ -39,9 +39,9 @@ block content
                     span.avatarContainer
                 .col-md-6.col-sm-4.main
                     .questionText
-                    a(href='question/#{question._id}/') #{question.question}
+                    a(href='/question/#{question._id}/') #{question.question}
                         .underscript
-                            a.username(href='user/#{question.author.user}') #{question.author.user}
+                            a.username(href='/user/#{question.author.user}') #{question.author.user}
                             br
                             br
                             span.startDate #{question.date.day+"/"+question.date.month+"/"+question.date.year}
