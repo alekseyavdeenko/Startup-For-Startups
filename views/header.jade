@@ -9,14 +9,14 @@ nav#header.navbar.navbar-inverse
     #navbar-collapse-2.collapse.navbar-collapse
       ul.nav.navbar-nav
         li.dropdown
-          a.dropdown-toggle(data-toggle='dropdown', href='#', aria-expanded='true')
-            | Doesn't work, needs fixing
+          a.dropdown-toggle(data-toggle='dropdown', href='#', aria-expanded='false')
+            | Category
             b.caret
           ul.dropdown-menu.dropdown-toggle(data-toggle="dropdown")
             li
-              a(href="#") action
+              a(href="#") Category1
             li
-              a(href="#") another action
+              a(href="#") Category2
       form.navbar-form.navbar-left
         .form-group
           input.form-control(type='text', placeholder='Search')
@@ -24,13 +24,12 @@ nav#header.navbar.navbar-inverse
       ul.nav.navbar-nav.navbar-right
         li.dropdown
           a.dropdown-toggle(data-toggle='dropdown', href='#', aria-expanded='false')
-            | MyPage
+            | User
             b.caret
           ul.dropdown-menu
             li
-              a(href='#') Link #1
+              a(href='#') My Page
             li
-              a(href='#') Link #2
+              a(href='#') Profile Settings
     // /.navbar-collapse
 
-div.zalupa
