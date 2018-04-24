@@ -8,19 +8,17 @@ block content
       .titleBar Latest Feed
       p#description In this section, you can find out the latest questions in yourself areas of interest and keep yourself up-to-date
 
+
+
       .pageNavLinkGroup
         nav(aria-label='Page navigation example')
           ul.pagination
-            li.page-item
-              a.page-link(href='#') Previous
-            li.page-item
-              a.page-link(href='#') 1
-            li.page-item
-              a.page-link(href='#') 2
-            li.page-item
-              a.page-link(href='#') 3
-            li.page-item
-              a.page-link(href='#') Next
+            if(prev)
+                li.page-item
+                    a.page-link(href='/feed/'+parseInt(id-1)) Previous
+            if(next)
+                li.page-item
+                    a.page-link(href='/feed/'+parseInt(id+1)) Next
 
       .questionList
         dl.sectionHeaders
@@ -29,11 +27,11 @@ block content
             a.question(href='#')
               span#quest Question
           dd.col-md-2.col-sm-6.stats
-            a.stat(href='#') 
+            a.stat(href='#')
               span#repl Replies Views
           dd.col-md-2.col-sm-6.lastReply
-            a(href='#') 
-              span.lmessage Last Message ↓
+
+              span.lmessage Last Message
         ol.questionListItems
             each question, i in questionList
                 .row
@@ -60,6 +58,5 @@ block content
                     else
                         dt
                             span No answers yet
-
 
    

@@ -11,6 +11,7 @@ global.errors=null;
 global.ownErrors=null;
 global.success=true;
 global.connectUrl="mongodb://startup:startup228@ds247759.mlab.com:47759/startup";
+//global.connectUrl="mongodb://localhost:27017/startup";
 router.get('/logout',function (req,res) {
     //logedInUser = null;
     console.log(req.session.logedInUser.user);
@@ -39,9 +40,11 @@ router.get('/', function(req, res, next) {
     else res.render('index', { title: "Not logged in" });
 });
 
-router.get('/feed',function (req,res) {
+router.get('/feed/:id',function (req,res) {
     var MongoClient = mongodb.MongoClient;
-
+    var id=parseInt(req.params.id);
+    var hasNext=true;
+    var hasPrev=true;
     MongoClient.connect(connectUrl,function (err,client) {
         if(err){
             console.log("Unable to connect to the server",err)
@@ -51,13 +54,20 @@ router.get('/feed',function (req,res) {
             var collection = db.collection('questions');
             if(!logedIn(req,res)||req.session.logedInUser.profession==null||req.session.logedInUser.profession==''){
                 collection.find().toArray(function (err,result) {
-                    console.log(result);
+                    console.log(id);
                     if(err){
                         res.send(err)
                     }else if(result[0]){
+                        if(result[((id+1)*10)+1]==null||result[((id+1)*10)+1]==undefined)
+                            hasNext=false;
+                        if(result[(id*10)-1]==null||result[(id*10)-1]==undefined)
+                            hasPrev=false;
                         res.render('newsLine',{
                             title:"Feed",
-                            questionList:result
+                            questionList:result.slice(id*10,(id+1)*10),
+                            next:hasNext,
+                            prev:hasPrev,
+                            id:id
                         });
                     }else {
                         console.log("No questions");
@@ -67,14 +77,21 @@ router.get('/feed',function (req,res) {
                 });
             }
             else{
-                console.log(req.session.logedInUser.profession);
+                //console.log(req.session.logedInUser.profession);
                 collection.find({theme:req.session.logedInUser.profession}).toArray(function (err,result) {
                     if(err){
                         res.send(err)
                     }else if(result.length){
+                        if(result[(id+1)*10+1]==null||result[(id+1)*10+1]==undefined)
+                            hasNext=false;
+                        if(result[(id)*10-1]==null||result[(id)*10+-1]==undefined)
+                            hasPrev=false;
                         res.render('newsLine',{
                             title:"Feed",
-                            questionList:result
+                            questionList:result.slice(id*10,(id+1)*10),
+                            next:hasNext,
+                            prev:hasPrev,
+                            id:id
                         });
                     }else {
                         console.log("No questions on selected theme");
@@ -82,13 +99,20 @@ router.get('/feed',function (req,res) {
                             if(err){
                                 res.send(err)
                             }else if(result.length){
+                                if(result[(id+1)*10+1]==null||result[(id+1)*10+1]==undefined)
+                                    hasNext=false;
+                                if(result[(id)*10-1]==null||result[(id)*10+-1]==undefined)
+                                    hasPrev=false;
                                 res.render('newsLine',{
                                     title:"Feed",
-                                    questionList:result
+                                    questionList:result.slice(id*10,(id+1)*10),
+                                    next:hasNext,
+                                    prev:hasPrev,
+                                    id:id
                                 });
                             }else {
-                                console.log(req.session.logedInUser);
-                                console.log(result);
+                                //console.log(req.session.logedInUser);
+                                //console.log(result);
                                 res.send("No documents found");
                             }
                     })
@@ -283,7 +307,7 @@ router.post('/ask_question',function (req,res) {
         }
     }
     else{
-        req.session.whereFrom='/ask';
+        req.session.whereFrom='ask';
         res.redirect('login')
     }
 });
