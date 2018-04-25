@@ -255,7 +255,11 @@ router.post('/ask_question',function (req,res) {
             errors=null;
             ownErrors=null;
             success=null;
-            req.check('theme','Theme should be selected').isLength({min:1});
+            if(req.body.theme=="Choose theme"){
+                success=false;
+                ownErrors=["Theme should be selected"];
+                res.redirect('ask');
+            }
             req.check('question','Question field should not be empty').isLength({min:1});
             if(req.validationErrors()){
                 console.log(req.validationErrors());

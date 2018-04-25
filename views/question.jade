@@ -3,31 +3,36 @@ extends layout
 block content
     include header
     include validationErrors
-    h1=question.theme
+    h1(style="margin: 10px" align="center")#questiontheme="Theme: " + question.theme
     br
-    h3=question.question
-    if(ans.length!=0)
+    h3(style="margin-bottom: 50px")="Question: " + question.question
+    if(ans.length != 0)
 
         each answer in ans
-            h4=answer.author.user
-            h5=answer.text
-            h7=answer.date.day+"/"+answer.date.month+"/"+answer.date.year
-            if(logedInUser!=null&&logedInUser.login==question.author.login&&answer.author.login!=logedInUser.login&&!question.closed)
-                form(action='givePoints/#{answer.author.login}',method='post')
-                    input(type='submit',value='This comment helped')
+            div(style="align-content: center; position: relative; left: 30%; background-color: white;width: 40%; border-radius: 15px; text-align: center; border:color: #aaa; margin-top:10px; padding:10px")
+                h4(style=" margin-top: 10px")=answer.author.user
+                h5(style="margin:10px")=answer.text
+                h7(style="margin:10px")=answer.date.day + "/" + answer.date.month + "/" + answer.date.year
+                if(logedInUser != null && logedInUser.login == question.author.login && answer.author.login != logedInUser.login && !question.closed)
+                    form(action='givePoints/#{answer.author.login}',method='post' style="margin-top:10px; margin-bottom:10px")
+                        button(type='submit', value='This comment helped').btn.btn-success This comment helped!
     else
-        h5 No answers yet
+        h5(style="text-align:center; font-size:15") No answers yet
     if(logedInUser)
-        form(action="/question/#{question._id}/post_answer" method="post")
+        form(action="/question/#{question._id}/post_answer" method="post" style="position: relative;  top: 50px; align-content:center")
             p
-                b Enter your answer:
+                b(style="position: relative; width: 30%;left:35%;right:35%;font-size:15px") Enter your answer:
             p
-                textarea.Lehha(rows="10" cols="45" name="answer")
+                textarea( rows="5" cols="45" name="answer" style="position: relative; width: 30%;left:35%;right:35%; " +
+                "align: center; border-radius:20px; border:color: #aaa; outline:none; font-family: arial; font-size:20px; padding:15px")
             p
-                input(type="submit" value="Post answer")
+                //input(type="submit" value="Post answer" style="border-radius:20px; position: relative; width: 10%;left:45%;right:45%;")
+                button(type='submit', value='Post answer', style="border-radius:20px; position: relative; " +
+                "width: 10%;left:45%;right:45%;").btn.btn-default Post answer
+
     else
-        p
+        p(style="text-align: center; margin-top:30px; font-size:15px")
             b Please login
         br
-        button.btn-default(width='70', height='50', onclick='window.location="/login"', value="Login") Login to answer
+        button.btn.btn-default( onclick='window.location="/login"', value="Login", style="position: relative; width: 10%;left:45%;right:45%; align: center;") Login to answer
     include footer
