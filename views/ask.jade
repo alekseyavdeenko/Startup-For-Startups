@@ -9,8 +9,8 @@ block content
             div#themeAsk Theme
             select#chooseTop(name="theme")
                 option(name="") Choose theme
-                option(name="Lesha") Lesha
-                option(name="Maks") Maks
+                each profession in professions
+                    option(name='') #{profession}
 
         .form-group.firstform
             br

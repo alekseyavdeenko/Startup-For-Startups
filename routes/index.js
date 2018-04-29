@@ -216,7 +216,7 @@ router.post('/adduser',function (req,res) {
 router.get('/landing',pages.landing);
 
 router.get('/ask',function (req,res) {
-    res.render('ask', { success:success, errors:errors ,ownErrors:ownErrors});
+    res.render('ask', { success:success, errors:errors ,ownErrors:ownErrors,professions:professions});
     errors=null;
     ownErrors=null;
     success=null;

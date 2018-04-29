@@ -73,72 +73,73 @@ function getDate(){
 
 
 router.post("/:id/post_answer",function (req,res) {
-    whereFrom=null;
-    errors=null;
-    ownErrors=null;
-    success=null;
-    req.check('answer','Answer field should not be empty').isLength({min:1});
-    if(req.validationErrors()){
-        success=false;
-        errors=req.validationErrors();
-        res.redirect('/question/'+req.params.id+'/');
-    }
-    else {
-        var MongoClient = mongodb.MongoClient;
+    if(req.session.logedInUser) {
+        whereFrom = null;
+        errors = null;
+        ownErrors = null;
+        success = null;
+        req.check('answer', 'Answer field should not be empty').isLength({min: 1});
+        if (req.validationErrors()) {
+            success = false;
+            errors = req.validationErrors();
+            res.redirect('/question/' + req.params.id + '/');
+        }
+        else {
+            var MongoClient = mongodb.MongoClient;
 
-        MongoClient.connect(connectUrl, function (err, client) {
-            if (err) {
-                console.log("Failed to connect to server", err);
-            } else {
-                console.log("Connected");
-                var db = client.db('startup');
-                var collection = db.collection('questions');
+            MongoClient.connect(connectUrl, function (err, client) {
+                if (err) {
+                    console.log("Failed to connect to server", err);
+                } else {
+                    console.log("Connected");
+                    var db = client.db('startup');
+                    var collection = db.collection('questions');
 
-                collection.find({"_id": ObjectId(req.params.id)}).toArray(function (err, result) {
-                    if (err) {
-                        res.send(err);
-                    }
-                    else if (result) {
-                        var q = result[0];
-                        d = getDate()
-                        var ans = {
-                            author: req.session.logedInUser,
-                            text: req.body.answer,
-                            date: d
-                        };
-                        if (q.answers.length == 0) {
-                            q.answers = [ans];
+                    collection.find({"_id": ObjectId(req.params.id)}).toArray(function (err, result) {
+                        if (err) {
+                            res.send(err);
                         }
-                        else {
-                            q.answers[q.answers.length] = ans;
-                        }
-
-                        collection.updateOne({"_id": ObjectId(req.params.id)}, {
-                            $set: {
-                                answers: q.answers,
-                                lastAnswer: ans,
-                                howManyAns: q.howManyAns + 1
-                            }
-                        }, function (err, result) {
-                            if (err) {
-                                res.send(err);
-                            } else if (result) {
-                                console.log();
-                                res.redirect('/question/' + req.params.id + "/");
+                        else if (result) {
+                            var q = result[0];
+                            d = getDate()
+                            var ans = {
+                                author: req.session.logedInUser,
+                                text: req.body.answer,
+                                date: d
+                            };
+                            if (q.answers.length == 0) {
+                                q.answers = [ans];
                             }
                             else {
-                                res.redirect('/feed');
+                                q.answers[q.answers.length] = ans;
                             }
-                            client.close();
-                        })
-                    }
-                })
-            }
+
+                            collection.updateOne({"_id": ObjectId(req.params.id)}, {
+                                $set: {
+                                    answers: q.answers,
+                                    lastAnswer: ans,
+                                    howManyAns: q.howManyAns + 1
+                                }
+                            }, function (err, result) {
+                                if (err) {
+                                    res.send(err);
+                                } else if (result) {
+                                    console.log();
+                                    res.redirect('/question/' + req.params.id + "/");
+                                }
+                                else {
+                                    res.redirect('/feed');
+                                }
+                                client.close();
+                            })
+                        }
+                    })
+                }
 
 
-        });
+            });
+        }
     }
-
 });
 
 

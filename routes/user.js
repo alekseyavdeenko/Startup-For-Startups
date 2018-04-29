@@ -28,10 +28,10 @@ router.get('/:user',function (req,res){
                     console.log(err);
                     res.send("Cannot find user");
                 }else if(result[0]!=null||result[0]!=undefined){
-                    res.render('userProfile',{title:"Profile",logedUser:req.session.logedInUser,user:result[0]});
+                    res.render('userProfile',{title:"Profile",logedUser:req.session.logedInUser,user:result[0],professions:professions});
                 }
                 else{
-                    res.render('userProfile',{title:"Profile",logedUser:req.session.logedInUser,user:req.session.logedInUser})
+                    res.render('userProfile',{title:"Profile",logedUser:req.session.logedInUser,user:req.session.logedInUser,professions:professions})
                 }
             })
         }
@@ -52,155 +52,164 @@ router.get('/:user/profileSettings',function (req,res) {
 });
 
 router.post('/:user/uploadimage',function (req,res) {
-    var form = new formidable.IncomingForm();
-    form.parse(req, function (err, fields, files) {
-        if(files.myImage!=undefined) {
-            var oldpath = files.myImage.path;
-            var newpath = 'c:\\users\\pc\\webstormprojects\\startup-for-startups\\uploads\\';
-            var extension = files.myImage.name.substr(files.myImage.name.length - 3);
-            console.log(extension);
-            if(extension!='jpg'&&extension!='png'&&extension!='jpeg'&&extension!='PNG'){
-                ownErrors=['We support only jpg and png extensions'];
+        if (req.session.logedInUser) {
+            var form = new formidable.IncomingForm();
+            form.parse(req, function (err, fields, files) {
+                    if (files.myImage != undefined) {
+                        var oldpath = files.myImage.path;
+                        var newpath = 'c:\\users\\pc\\webstormprojects\\startup-for-startups\\uploads\\';
+                        var extension = files.myImage.name.substr(files.myImage.name.length - 3);
+                        console.log(extension);
+                        if (extension != 'jpg' && extension != 'png' && extension != 'jpeg' && extension != 'PNG') {
+                            ownErrors = ['We support only jpg and png extensions'];
 
-                success=false;
-                res.redirect("/user/"+req.session.logedInUser.login+"/profileSettings");
-            }
-            else {
-                errors=null;
-                ownErrors=null;
-                success=null;
-            var name = req.session.logedInUser.login;
+                            success = false;
+                            res.redirect("/user/" + req.session.logedInUser.login + "/profileSettings");
+                        }
+                        else {
+                            errors = null;
+                            ownErrors = null;
+                            success = null;
+                            var name = req.session.logedInUser.login;
 
-            newpath = 'c:\\users\\pc\\webstormprojects\\startup-for-startups\\public\\uploads\\' + name + '.' + extension;
+                            newpath = 'c:\\users\\pc\\webstormprojects\\startup-for-startups\\public\\uploads\\' + name + '.' + extension;
 
-                fs.rename(oldpath, newpath, function (err) {
-                    if (err) res.send(err);
-                    else {
+                            fs.rename(oldpath, newpath, function (err) {
+                                if (err) res.send(err);
+                                else {
 
-                        newpath = '../../uploads/' + name + '.' + extension;
+                                    newpath = '../../uploads/' + name + '.' + extension;
 
 
-                        var MongoClient = mongodb.MongoClient;
+                                    var MongoClient = mongodb.MongoClient;
 
-                        MongoClient.connect(connectUrl, function (err, client) {
-                            if (err) {
-                                console.log("Cannot connect to db");
-                            } else {
-                                console.log("Connected");
-                                var db = client.db('startup');
-                                var collection = db.collection("users");
-                                var updUser = {
-                                    user: req.session.logedInUser.user,
-                                    login: req.session.logedInUser.login,
-                                    password: req.session.logedInUser.password,
-                                    points:req.session.logedInUser.points,
-                                    img: newpath
-                                };
-                                collection.updateOne({
-                                    user: req.session.logedInUser.user,
-                                    login: req.session.logedInUser.login,
-                                    password: req.session.logedInUser.password,
-                                    points:req.session.logedInUser.points,
-                                    img: req.session.logedInUser.img
-                                }, {$set: updUser}, function (err, results) {
-                                    if (err) {
-                                        console.log("You are not registered")
-                                    }
+                                    MongoClient.connect(connectUrl, function (err, client) {
+                                        if (err) {
+                                            console.log("Cannot connect to db");
+                                        } else {
+                                            console.log("Connected");
+                                            var db = client.db('startup');
+                                            var collection = db.collection("users");
+                                            var updUser = {
+                                                user: req.session.logedInUser.user,
+                                                login: req.session.logedInUser.login,
+                                                password: req.session.logedInUser.password,
+                                                points: req.session.logedInUser.points,
+                                                img: newpath
+                                            };
+                                            collection.updateOne({
+                                                user: req.session.logedInUser.user,
+                                                login: req.session.logedInUser.login,
+                                                password: req.session.logedInUser.password,
+                                                points: req.session.logedInUser.points,
+                                                img: req.session.logedInUser.img
+                                            }, {$set: updUser}, function (err, results) {
+                                                if (err) {
+                                                    console.log("You are not registered")
+                                                }
 
-                                    else {
-                                        req.session.logedInUser.img = newpath;
-                                        res.redirect('/user/' + req.session.logedInUser.login + '/profileSettings');
-                                    }
+                                                else {
+                                                    req.session.logedInUser.img = newpath;
+                                                    res.redirect('/user/' + req.session.logedInUser.login + '/profileSettings');
+                                                }
 
-                                    client.close()
-                                })
-                            }
-                        })
+                                                client.close()
+                                            })
+                                        }
+                                    })
 
+                                }
+                            });
+                        }
                     }
-                });
-            }
+                    else {
+                        ownErrors = ['We support only jpg and png extensions'];
+                        success = false;
+                        res.redirect('/user/' + req.session.logedInUser.login + '/profileSettings');
+                    }
+                }
+            )
         }
-        else{
-            ownErrors=['We support only jpg and png extensions'];
-            success=false;
-            res.redirect('/user/' + req.session.logedInUser.login + '/profileSettings');
-        }
-})});
+    }
+    );
 
 router.post('/:user/changeusersettings',function (req,res) {
-    if(req.body.password!=''){
-        req.check('password','Password should be 4-14 digits length').isLength({min:4,max:14});
-        req.check('password','Password confirmation failed').equals(req.body.password_confirm);
-        req.check('oldPassword','Old password is incorrect').equals(atob(req.session.logedInUser.password));
-    }
-    req.check('user','Field name should not be empty').isLength({min:1,max:20});
-    if(req.body.mail!='')
-        req.check('mail','Invalid email').isEmail();
+    if(req.session.logedInUser) {
+        if (req.body.password != '') {
+            req.check('password', 'Password should be 4-14 digits length').isLength({min: 4, max: 14});
+            req.check('password', 'Password confirmation failed').equals(req.body.password_confirm);
+            req.check('oldPassword', 'Old password is incorrect').equals(atob(req.session.logedInUser.password));
+        }
+        req.check('user', 'Field name should not be empty').isLength({min: 1, max: 20});
+        if (req.body.mail != '')
+            req.check('mail', 'Invalid email').isEmail();
 
-    if(req.validationErrors()){
-        console.log(req.validationErrors());
-        errors=req.validationErrors();
-        success=false;
-        res.redirect('/user/' + req.session.logedInUser.login + '/profileSettings');
-    }
+        if (req.validationErrors()) {
+            console.log(req.validationErrors());
+            errors = req.validationErrors();
+            success = false;
+            res.redirect('/user/' + req.session.logedInUser.login + '/profileSettings');
+        }
 
-    else {
-        errors=null;
-        ownErrors=null;
-        success=null;
-        var MongoClient = mongodb.MongoClient;
+        else {
+            errors = null;
+            ownErrors = null;
+            success = null;
+            var MongoClient = mongodb.MongoClient;
 
-        MongoClient.connect(connectUrl, function (err, client) {
-            if (err) {
-                console.log("Cannot connect to db");
-            } else {
-                console.log("Connected");
-                var db = client.db('startup');
-                var collection = db.collection("users");
-                var updUser = {
-                    user: req.body.user,
-                    login: req.session.logedInUser.login,
-                    password: btoa(req.body.password),
-                    img: req.session.logedInUser.img,
-                    points:req.session.logedInUser.points,
-                    profession: req.body.profession,
-                    asked:req.session.logedInUser.asked,
-                    answered:req.session.logedInUser.answered,
-                    mail:req.body.mail
-                };
-                if(req.body.password==''){
-                    console.log("QQQ");
-                    updUser.password=req.session.logedInUser.password;
+            MongoClient.connect(connectUrl, function (err, client) {
+                if (err) {
+                    console.log("Cannot connect to db");
+                } else {
+                    console.log("Connected");
+                    var db = client.db('startup');
+                    var collection = db.collection("users");
+                    var updUser = {
+                        user: req.body.user,
+                        login: req.session.logedInUser.login,
+                        password: btoa(req.body.password),
+                        img: req.session.logedInUser.img,
+                        points: req.session.logedInUser.points,
+                        profession: req.body.profession,
+                        asked: req.session.logedInUser.asked,
+                        answered: req.session.logedInUser.answered,
+                        mail: req.body.mail
+                    };
+                    if (req.body.password == '') {
+                        updUser.password = req.session.logedInUser.password;
+                    }
+
+                    if (req.body.profession == "Choose profession") {
+                        updUser.profession = null;
+                    }
+
+                    console.log(atob(updUser.password));
+                    collection.updateOne({
+                        user: req.session.logedInUser.user,
+                        login: req.session.logedInUser.login,
+                        password: req.session.logedInUser.password,
+                        img: req.session.logedInUser.img,
+                        profession: req.session.logedInUser.profession,
+                        asked: req.session.logedInUser.asked,
+                        answered: req.session.logedInUser.answered,
+                        mail: req.session.logedInUser.mail
+                    }, {$set: updUser}, function (err, results) {
+                        if (err) {
+                            console.log("You are not registered")
+                        }
+
+                        else {
+
+                            req.session.logedInUser = updUser;
+                            console.log(req.body.profession);
+                            res.redirect('/user/' + req.session.logedInUser.login + '/profileSettings')
+                        }
+
+                        client.close()
+                    })
                 }
-
-                console.log(atob(updUser.password));
-                collection.updateOne({
-                    user: req.session.logedInUser.user,
-                    login: req.session.logedInUser.login,
-                    password: req.session.logedInUser.password,
-                    img: req.session.logedInUser.img,
-                    profession: req.session.logedInUser.profession,
-                    asked:req.session.logedInUser.asked,
-                    answered:req.session.logedInUser.answered,
-                    mail:req.session.logedInUser.mail
-                }, {$set: updUser}, function (err, results) {
-                    if (err) {
-                        console.log("You are not registered")
-                    }
-
-                    else {
-
-                        req.session.logedInUser = updUser;
-                        console.log(results);
-                        console.log(atob(req.session.logedInUser.password));
-                        res.redirect('/user/' + req.session.logedInUser.login + '/profileSettings')
-                    }
-
-                    client.close()
-                })
-            }
-        })
+            })
+        }
     }
 });
 
