@@ -19,9 +19,9 @@ block content
                 .col-md-6
                     b ASKED:
                 .col-md-6
-                    h3=0
+                    h3=user.answered
                 .col-md-6
-                    h3=0
+                    h3=user.asked
             br
             b RANK:
             br
@@ -33,7 +33,8 @@ block content
                 .panel-heading Tip of the day
                 .panel-body To increase your rank fill out your profile and help others
             br
-            button#change_userSettings.btn.btn-primary(onclick='window.location="/user/#{logedUser.login}/profileSettings"') Settings
-            button.btn.btn-primary(onclick='window.location="/user/#{logedUser.login}/Contributors"' style="margin: 0px 10px" ) Contributors
+            if(user.login==logedUser.login)
+                button#change_userSettings.btn.btn-primary(onclick='window.location="/user/#{logedUser.login}/profileSettings"') Settings
+                button.btn.btn-primary(onclick='window.location="/user/#{logedUser.login}/Contributors"' style="margin: 0px 10px" ) Contributors
             br
             br

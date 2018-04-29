@@ -160,20 +160,17 @@ router.post('/:id/givePoints/:login',function (req,res) {
                     else{
                         console.log(result[0]);
                         var p=result[0].points;
-                        if(result[0].points==null){
-                            p=1;
-                        }else{
-                            p++;
-                        }
-                        collection.updateOne(result[0],{$set:{points:p}},function (err,result) {
+                        var a=result[0].answered;
+                        p++;
+                        a++;
+                        collection.updateOne(result[0],{$set:{points:p,answered:a}},function (err,result) {
                             if(err){
                                 res.send(err);
                             }else{
-
                                 var collection = db.collection('questions');
                                 collection.find({"_id":ObjectId(req.params.id)}).toArray(function (err,result) {
                                     if(err)
-                                        res.send(err)
+                                        res.send(err);
                                     else{
                                         var qu=result[0];
                                         qu.closed=true;

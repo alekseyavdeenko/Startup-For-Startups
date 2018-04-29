@@ -41,7 +41,7 @@ block content
                     .questionText
                     a(href='/question/#{question._id}/') #{question.question}
                         .underscript
-                            a.username(href='/user/#{question.author.user}') #{question.author.user}
+                            a.username(href='/user/#{question.author.login}') #{question.author.login}
                             br
                             br
                             span.startDate #{question.date.day+"/"+question.date.month+"/"+question.date.year}
@@ -52,7 +52,7 @@ block content
                     dl.lastReplyInfo
                     if(question.lastAnswer!=null)
                         dt
-                            a.username(href='#') #{question.lastAnswer.author.user}
+                            a.username(href='#') #{question.lastAnswer.author.login}
                         dd.snoozed
                         a.dateTime(href='#') #{question.lastAnswer.date.day+"/"+question.lastAnswer.date.month+"/"+question.lastAnswer.date.year+" at "+question.lastAnswer.date.hour+":"+question.lastAnswer.date.minutes}
                     else

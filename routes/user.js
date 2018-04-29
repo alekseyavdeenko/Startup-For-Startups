@@ -13,7 +13,27 @@ router.get('/', function(req, res, next) {
 });
 
 
-router.get('/:user',pages.profile);
+router.get('/:user',function (req,res){
+    var MongoClient = mongodb.MongoClient;
+
+    MongoClient.connect(connectUrl, function (err, client) {
+        if (err) {
+            console.log("Cannot connect to db");
+        } else {
+            console.log("Connected");
+            var db = client.db('startup');
+            var collection = db.collection("users");
+            collection.find({login:req.params.user}).toArray(function (err,result) {
+                if(err){
+                    console.log(err);
+                    res.send("Cannot find user");
+                }else{
+                    res.render('userProfile',{title:"Profile",logedUser:req.session.logedInUser,user:result[0]});
+                }
+            })
+        }
+    });
+});
 
 router.get('/:user/profileSettings',function (req,res) {
 
@@ -138,7 +158,9 @@ router.post('/:user/changeusersettings',function (req,res) {
                     password: btoa(req.body.password),
                     img: req.session.logedInUser.img,
                     points:req.session.logedInUser.points,
-                    profession: req.body.profession
+                    profession: req.body.profession,
+                    asked:req.session.logedInUser.asked,
+                    answered:req.session.logedInUser.answered
                 };
                 console.log(req.body.profession);
                 collection.updateOne({
@@ -146,7 +168,9 @@ router.post('/:user/changeusersettings',function (req,res) {
                     login: req.session.logedInUser.login,
                     password: req.session.logedInUser.password,
                     img: req.session.logedInUser.img,
-                    profession: req.session.logedInUser.profession
+                    profession: req.session.logedInUser.profession,
+                    asked:req.session.logedInUser.asked,
+                    answered:req.session.logedInUser.answered
                 }, {$set: updUser}, function (err, results) {
                     if (err) {
                         console.log("You are not registered")

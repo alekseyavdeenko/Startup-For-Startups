@@ -189,7 +189,9 @@ router.post('/adduser',function (req,res) {
                             login: req.body.login,
                             password: btoa(req.body.password),
                             img: '../../images/default_avatar.gif',
-                            points: 0
+                            points: 0,
+                            asked:0,
+                            answered:0
                         }, function (err, result) {
                             if (err) {
                                 console.log("Cannot add new student to database", err);
@@ -294,12 +296,14 @@ router.post('/ask_question',function (req,res) {
                                 collection = db.collection('users');
                                 console.log(req.session.logedInUser);
                                 req.session.logedInUser.points--;
+                                req.session.logedInUser.asked++;
                                 console.log(req.session.logedInUser);
-                                collection.updateOne({login: req.session.logedInUser.login}, {$set: {points: req.session.logedInUser.points}}, function (err, result) {
+                                collection.updateOne({login: req.session.logedInUser.login}, {$set: {points: req.session.logedInUser.points,asked:req.session.logedInUser.asked}}, function (err, result) {
                                     if (err) {
                                         res.send(err);
                                     }
                                     else {
+                                        console.log(req.session.logedInUser);
                                         res.redirect('/');
                                     }
                                 });
@@ -397,8 +401,7 @@ router.get("/unlimPoints",function (req,res) {
                     res.send(err);
                 }
                 else{
-                    req.session.logedInUser.points=100;
-                    console.log(result[0]);
+                    req.session.logedInUser.points=1000;
                     res.redirect('/');
                 }
                 })
