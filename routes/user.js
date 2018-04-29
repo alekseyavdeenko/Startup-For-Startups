@@ -36,7 +36,7 @@ router.post('/:user/uploadimage',function (req,res) {
             var newpath = 'c:\\users\\pc\\webstormprojects\\startup-for-startups\\uploads\\';
             var extension = files.myImage.name.substr(files.myImage.name.length - 3);
             console.log(extension);
-            if(extension!='jpg'&&extension!='png'){
+            if(extension!='jpg'&&extension!='png'&&extension!='jpeg'&&extension!='PNG'){
                 ownErrors=['We support only jpg and png extensions'];
 
                 success=false;

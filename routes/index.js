@@ -14,7 +14,10 @@ global.ownErrors=null;
 global.success=true;
 //global.connectUrl="mongodb://startup:startup228@ds247759.mlab.com:47759/startup";
 global.connectUrl="mongodb://localhost:27017/startup";
-global.professions=["IT","Design","Math","Physics","Biology",""];
+global.professions=["IT","Design","Math","Physics","Biology", "computer hardware engineer",
+        "computer network architect", "computer operator", "computer programmer",
+        "computer science teacher", "computer support specialist", "computer systems administrator",
+        "computer systems analyst", "software developer", "web developer"];
 
 
 router.get('/logout',function (req,res) {

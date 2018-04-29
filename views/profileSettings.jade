@@ -36,31 +36,31 @@ block content
                 input#password_confirmation.text-fields.form-control(type='password', placeholder="Confirm your password", name="password_confirm")
 
 
-            //.form-group
-            //    label Profession
-            //    if(user.profession)
-            //        input#input_profession.text-fields.form-control(type="text", placeholder="Profession", name="profession", value="#{user.profession}")
-            //        .btn-group.dropup
-            //            button.btn.btn-default(type='button') .professions
-            //            button.btn.btn-default.dropdown-toggle(data-toggle='dropdown', type='button')
-            //                span.caret
-            //            div#themeAsk
-            //                select#chooseTop(name="Profession")
-            //                    option(name="") Choose profession
-            //                    option(value="professions[0]") IT
-            //                    option(name="professions[1]") Biology
-            //
-            //    else
-            //        //input#input_profession.text-fields.form-control(type="text", placeholder="Profession", name="profession")
-            //        //.btn-group.dropdown
-            //        //    button.btn.btn-default.dropdown-toggle(data-toggle='dropdown', type='button', aria-expanded='false')
-            //        //        | Dropdown
-            //                span.caret
-            //        div#themeAsk
-            //            select#chooseTop(name="Profession")
-            //                option(name="") Choose profession
-            //                option(name="professions[0]") IT
-            //                option(name="professions[1]") Biology
+            .form-group
+                label Profession
+                if(user.profession)
+                    input#input_profession.text-fields.form-control(type="text", placeholder="Profession", name="profession", value="#{user.profession}")
+                    .btn-group.dropup
+                        button.btn.btn-default(type='button') .professions
+                        button.btn.btn-default.dropdown-toggle(data-toggle='dropdown', type='button')
+                            span.caret
+                        div#themeAsk
+                            select#chooseTop(name="Profession")
+                                option(name="") Choose profession
+                                option(value="professions[0]") IT
+                                option(name="professions[1]") Biology
+
+                else
+                    //input#input_profession.text-fields.form-control(type="text", placeholder="Profession", name="profession")
+                    //.btn-group.dropdown
+                    //    button.btn.btn-default.dropdown-toggle(data-toggle='dropdown', type='button', aria-expanded='false')
+                    //        | Dropdown
+                            span.caret
+                    div#themeAsk
+                        select#chooseTop(name="Profession")
+                            option(name="") Choose profession
+                            option(name="professions[0]") IT
+                            option(name="professions[1]") Biology
 
 
 
