@@ -27,8 +27,11 @@ router.get('/:user',function (req,res){
                 if(err){
                     console.log(err);
                     res.send("Cannot find user");
-                }else{
+                }else if(result[0]!=null||result[0]!=undefined){
                     res.render('userProfile',{title:"Profile",logedUser:req.session.logedInUser,user:result[0]});
+                }
+                else{
+                    res.render('userProfile',{title:"Profile",logedUser:req.session.logedInUser,user:req.session.logedInUser})
                 }
             })
         }
