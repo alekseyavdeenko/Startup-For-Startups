@@ -1,5 +1,6 @@
 extends layout
-include header
+
+
 
 block content
     include header
@@ -16,7 +17,7 @@ block content
                 br
                 input#input_image.btn.btn-default(type="file", name="myImage")
                 br
-                button#change_avatar.change_userSettings(type="submit") submit
+                button#change_avatar.btn.btn-primary(type="submit") submit
             br
             br
         form#form_update_user(name="changeUserSettings", method="post", action="changeusersettings")
@@ -28,42 +29,44 @@ block content
                 input#input_login.text-fields.form-control(type='text', placeholder="Login", name="login", value="#{user.login}")
             .form-group
                 label(for='input_password') Password
-                input#input_password.text-fields.form-control(type='text', placeholder="Password", name="password", value="#{atob(user.password)}")
+                input#input_password.text-fields.form-control(type='password', placeholder="Password", name="password")
 
             .form-group
                 label(for='password_confirmation') Password confirmation
-                input#password_confirmation.text-fields.form-control(type='password', placeholder="Confirm your password", name="password_confirm", value="#{atob(user.password)}")
+                input#password_confirmation.text-fields.form-control(type='password', placeholder="Confirm your password", name="password_confirm")
 
 
-            .form-group
-                label Profession
-                if(user.profession)
-                    input#input_profession.text-fields.form-control(type="text", placeholder="Profession", name="profession", value="#{user.profession}")
-                    .btn-group.dropup
-                        button.btn.btn-default(type='button') .professions
-                        button.btn.btn-default.dropdown-toggle(data-toggle='dropdown', type='button')
-                            span.caret
-                        ul.dropdown-menu.dropdown-menu-right
-                            li
-                                a(href='/signup') Profession 1
-                            li
-                                a(href='/signup') Profession 2
+            //.form-group
+            //    label Profession
+            //    if(user.profession)
+            //        input#input_profession.text-fields.form-control(type="text", placeholder="Profession", name="profession", value="#{user.profession}")
+            //        .btn-group.dropup
+            //            button.btn.btn-default(type='button') .professions
+            //            button.btn.btn-default.dropdown-toggle(data-toggle='dropdown', type='button')
+            //                span.caret
+            //            div#themeAsk
+            //                select#chooseTop(name="Profession")
+            //                    option(name="") Choose profession
+            //                    option(value="professions[0]") IT
+            //                    option(name="professions[1]") Biology
+            //
+            //    else
+            //        //input#input_profession.text-fields.form-control(type="text", placeholder="Profession", name="profession")
+            //        //.btn-group.dropdown
+            //        //    button.btn.btn-default.dropdown-toggle(data-toggle='dropdown', type='button', aria-expanded='false')
+            //        //        | Dropdown
+            //                span.caret
+            //        div#themeAsk
+            //            select#chooseTop(name="Profession")
+            //                option(name="") Choose profession
+            //                option(name="professions[0]") IT
+            //                option(name="professions[1]") Biology
 
-                else
-                    input#input_profession.text-fields.form-control(type="text", placeholder="Profession", name="profession")
-                    .btn-group.dropup
-                        button.btn.btn-default(type='button') .professions
-                        button.btn.btn-default.dropdown-toggle(data-toggle='dropdown', type='button')
-                            span.caret
-                        ul.dropdown-menu.dropdown-menu
-                            li
-                                input(name='occupation[0][0]')
-                            li
-                                input(name='occupation[0][1]')
+
 
             br
             br
-            button#submit_changes_userSettings.change_userSettings(type="submit") submit
+            button#submit_changes_userSettings.btn.btn-primary(type="submit") submit
             br
             br
             br

@@ -54,8 +54,10 @@ input[type=submit]{
   border: solid 1px #aaa;
 }
 #input_img{
-  border-radius: 10px;
+  border-radius: 100%;
   border: solid 1px #aaa;
+  height: 120px;
+  width: 120px;
 }
 /*input[type=submit]:hover{*/
   /*box-shadow: 0 4px 40px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);*/
@@ -78,20 +80,36 @@ input[type=submit]{
   background: #000000;
 }
 
+.cont{
+  margin: 5% 15%;
+  /*padding: 5%;*/
+}
+
+.barrr{
+  width: 40px;
+}
+
+/*hr{*/
+  /*margin-top: 1px;*/
+  /*margin-bottom: 1px;*/
+/*}*/
+
 .change_userSettings{
-  background-color: white;
-  padding: 5px 10px;
-  /*z-index: 20000;*/
-  border-radius: 10px;
-  /*position: absolute;*/
-  margin: auto;
-  margin: 5px;
-/*border: dashed 1px #aaa;*/
+  /*background-color: white;*/
+  /*padding: 5px 10px;*/
+  /*!*z-index: 20000;*!*/
+  /*border-radius: 10px;*/
+  /*!*position: absolute;*!*/
+  /*margin: auto;*/
+  /*margin: 23px;*/
+/*!*border: dashed 1px #aaa;*!*/
   box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.2), 0 2px 10px 0 rgba(0, 0, 0, 0.19);
   transition:	all	600ms ease-out;
+  background-color: #3576be;
 }
 
 .change_userSettings:hover{
+  background-color: #265c99;
   box-shadow: 0 4px 40px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   transition:	all	600ms ease-out;
 }

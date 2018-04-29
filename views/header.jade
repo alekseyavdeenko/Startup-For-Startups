@@ -5,7 +5,7 @@ nav#header.navbar.navbar-inverse
         span.icon-bar
         span.icon-bar
         span.icon-bar
-      a.navbar-brand.brandcolor(href='/') Site
+      a.navbar-brand.brandcolor(href='/ask') ASK!
     #navbar-collapse-2.collapse.navbar-collapse
       ul.nav.navbar-nav
         li.dropdown
@@ -14,9 +14,11 @@ nav#header.navbar.navbar-inverse
             b.caret
           ul.dropdown-menu.dropdown-toggle(data-toggle="dropdown")
             li
-              a(href="#") Category1
+              a(href="../") Main
             li
-              a(href="#") Category2
+              a(href="../feed/0") Feed
+            li
+              a(href="../ask") Ask
       form.navbar-form.navbar-left
         .form-group
           input.form-control(type='text', placeholder='Search')
@@ -28,9 +30,11 @@ nav#header.navbar.navbar-inverse
             b.caret
           ul.dropdown-menu
             li
-              a(href='#') My Page
+              //onclick='window.location="/user/#{logedUser.login}"'
+              a(href='../../User/user') My Page
             li
-              a(href='#') Profile Settings
+              //onclick='window.location="/user/#{logedUser.login}/profileSettings"'
+              a(href='../../User/user/profileSettings') Profile Settings
 
 
 br

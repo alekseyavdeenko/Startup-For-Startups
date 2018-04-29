@@ -1,60 +1,21 @@
 extends layout
-include header
 include validationErrors
 
 block content
-
-    br
-    br
-    br
-    br
-    br
-    h1=title
-
-    if(logedUser!=null)
-        button#change_userSettings.change_userSettings(onclick='window.location="/user/#{logedUser.login}/profileSettings"') Profile Settings
-        //#image_all
-        //    form#user_image(name="user_image", method='post', action='uploadimage', enctype="multipart/form-data")
-        //        if(user.img != null)
-        //            img#input_img(name="image", src='#{user.img}', width = "120px", height='150px')
-        //        else
-        //            img#input_img(name="image", src='../../images/default_avatar.gif', width = "120px", height='150px')
-        //
-        //        input#input_image.btn.btn-default(type="file", name="myImage")
-        //        button#change_avatar.btn.btn-default(type="submit") submit
-        //    br
-        //br
-        //nav#testheader.navbar.navbar-inverse
-        //    .container-fluid
-        //        .navbar-header
-        //            button.navbar-toggle(data-toggle='collapse', data-target='#navbar-collapse-2', type='button')
-        //                span.icon-bar
-        //                span.icon-bar
-        //                span.icon-bar
-        //            a.navbar-brand.brandcolor(href='/') Site
-        //        #navbar-collapse-2.collapse.navbar-collapse
-        //            ul.nav.navbar-nav
-        //                li.dropdown
-        //                    a.dropdown-toggle(data-toggle='dropdown', href='#', aria-expanded='true')
-        //                        | Doesn't work, needs fixing
-        //                        b.caret
-        //                    ul.dropdown-menu.dropdown-toggle(data-toggle="dropdown")
-        //                        li
-        //                            a(href="#") action
-        //                        li
-        //                            a(href="#") another action
-        //            form.navbar-form.navbar-left
-        //                .form-group
-        //                    input.form-control(type='text', placeholder='Search')
-        //                button.btn.btn-default(type='submit' style='margin-left:10px;') Submit
-        //            ul.nav.navbar-nav.navbar-right
-        //                li.dropdown
-        //                    a.dropdown-toggle(data-toggle='dropdown', href='#', aria-expanded='false')
-        //                        | MyPage
-        //                        b.caret
-        //                    ul.dropdown-menu
-        //                        li
-        //                            a(href='#') Link #1
-        //                        li
-        //                            a(href='#') Link #2
     include header
+    .cont
+        br
+        br
+        br
+        br
+        br
+        h1=title
+
+        if(logedUser!=null)
+            img#input_img(name="image", src='../../images/default_avatar.gif', width = "120px", height='150px')
+            br
+            br
+            #progbar.progress-bar.progress-bar-striped.active(style='width: 120px')  Your Level
+            br
+            br
+            button#change_userSettings.btn.btn-primary(onclick='window.location="/user/#{logedUser.login}/profileSettings"') Settings
