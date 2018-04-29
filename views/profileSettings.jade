@@ -42,8 +42,12 @@ block content
                     input#input_login.text-fields.form-control(type='email', placeholder="me@mail.com", name="mail")
 
             .form-group
-                label(for='input_password') Password
-                input#input_password.text-fields.form-control(type='password', placeholder="Password", name="password")
+                label(for='input_old_password') Old Password
+                input#input_old_password.text-fields.form-control(type='password', placeholder="Old Password", name="oldPassword")
+
+            .form-group
+                label(for='input_password') New Password
+                input#input_password.text-fields.form-control(type='password', placeholder="New Password", name="password")
 
             .form-group
                 label(for='password_confirmation') Password confirmation

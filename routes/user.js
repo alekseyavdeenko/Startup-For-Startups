@@ -129,11 +129,14 @@ router.post('/:user/uploadimage',function (req,res) {
 })});
 
 router.post('/:user/changeusersettings',function (req,res) {
-
-    req.check('password','Password should be 4-14 digits length').isLength({min:4,max:14});
-    req.check('password','Password confirmation failed').equals(req.body.password_confirm);
-    req.check('login','Login should be 4-14 digits length').isLength({min:4,max:14});
+    if(req.body.password!=''){
+        req.check('password','Password should be 4-14 digits length').isLength({min:4,max:14});
+        req.check('password','Password confirmation failed').equals(req.body.password_confirm);
+        req.check('oldPassword','Old password is incorrect').equals(atob(req.session.logedInUser.password));
+    }
     req.check('user','Field name should not be empty').isLength({min:1,max:20});
+    if(req.body.mail!='')
+        req.check('mail','Invalid email').isEmail();
 
     if(req.validationErrors()){
         console.log(req.validationErrors());
@@ -157,15 +160,21 @@ router.post('/:user/changeusersettings',function (req,res) {
                 var collection = db.collection("users");
                 var updUser = {
                     user: req.body.user,
-                    login: req.body.login,
+                    login: req.session.logedInUser.login,
                     password: btoa(req.body.password),
                     img: req.session.logedInUser.img,
                     points:req.session.logedInUser.points,
                     profession: req.body.profession,
                     asked:req.session.logedInUser.asked,
-                    answered:req.session.logedInUser.answered
+                    answered:req.session.logedInUser.answered,
+                    mail:req.body.mail
                 };
-                console.log(req.body.profession);
+                if(req.body.password==''){
+                    console.log("QQQ");
+                    updUser.password=req.session.logedInUser.password;
+                }
+
+                console.log(atob(updUser.password));
                 collection.updateOne({
                     user: req.session.logedInUser.user,
                     login: req.session.logedInUser.login,
@@ -173,7 +182,8 @@ router.post('/:user/changeusersettings',function (req,res) {
                     img: req.session.logedInUser.img,
                     profession: req.session.logedInUser.profession,
                     asked:req.session.logedInUser.asked,
-                    answered:req.session.logedInUser.answered
+                    answered:req.session.logedInUser.answered,
+                    mail:req.session.logedInUser.mail
                 }, {$set: updUser}, function (err, results) {
                     if (err) {
                         console.log("You are not registered")
@@ -182,7 +192,8 @@ router.post('/:user/changeusersettings',function (req,res) {
                     else {
 
                         req.session.logedInUser = updUser;
-                        console.log(req.session.logedInUser.profession);
+                        console.log(results);
+                        console.log(atob(req.session.logedInUser.password));
                         res.redirect('/user/' + req.session.logedInUser.login + '/profileSettings')
                     }
 

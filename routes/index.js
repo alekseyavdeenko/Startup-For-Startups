@@ -189,6 +189,7 @@ router.post('/adduser',function (req,res) {
                             login: req.body.login,
                             password: btoa(req.body.password),
                             img: '../../images/default_avatar.gif',
+                            mail:"",
                             points: 0,
                             asked:0,
                             answered:0
