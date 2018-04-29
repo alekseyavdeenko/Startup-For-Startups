@@ -4,10 +4,10 @@ block content
     h1= title
     if(title!="Not loged in")
         p Welcome, #{title}
-    button#login.change_userSettings(onclick="window.location ='/login'") Login
+    button#login.btn.btn-primary(onclick="window.location ='/login'" style="margin:5px") Login
     if(title!="Not logged in")
-        button#remove_user.change_userSettings(onclick="window.location ='/logout'") Log out
-        button#change_userSettings.change_userSettings(onclick='window.location="/user/#{login}"') My Profile
+        button#remove_user.btn.btn-primary(onclick="window.location ='/logout'" style="margin:5px") Log out
+        button#change_userSettings.btn.btn-primary(onclick='window.location="/user/#{login}"' style="margin:5px") My Profile
 
 
     //img(src="images/feature-1.png")

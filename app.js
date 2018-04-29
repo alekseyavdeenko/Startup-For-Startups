@@ -17,6 +17,7 @@ var index = require('./routes/index');
 var user = require('./routes/user');
 var login = require('./routes/login');
 var question = require('./routes/question');
+// var feed = require('./routes/feed');
 
 var app = express();
 
@@ -47,6 +48,7 @@ app.use(session({
 }));
 
 app.use('/', index);
+// app.use('/feed', feed);
 app.use('/user', user);
 app.use('/login', login);
 app.use('/question', question);
