@@ -83,7 +83,6 @@ router.get('/feed/:id',function (req,res) {
                 });
             }
             else{
-                //console.log(req.session.logedInUser.profession);
                 collection.find({theme:req.session.logedInUser.profession}).toArray(function (err,result) {
                     if(err){
                         res.send(err)
@@ -119,8 +118,6 @@ router.get('/feed/:id',function (req,res) {
                                     id:id
                                 });
                             }else {
-                                //console.log(req.session.logedInUser);
-                                //console.log(result);
                                 res.send("No documents found");
                             }
                     })
@@ -135,7 +132,9 @@ router.get('/feed/:id',function (req,res) {
 
 router.get('/signup',function (req,res) {
     res.render('signup', { success:success, errors:errors ,ownErrors:ownErrors});
-
+    errors=null;
+    ownErrors=null;
+    success=null;
 });
 
 router.post('/adduser',function (req,res) {
@@ -173,19 +172,15 @@ router.post('/adduser',function (req,res) {
                     if (err) {
                         console.log("Cannot add to db");
                     }
-                    console.log(result);
                     if (result!=null && result[0]!=null) {
-
-
-                        req.session.success=false;
-                        myErrors=['User with such login is already registered'];
+                        success=false;
+                        ownErrors=['User with such login is already registered'];
                         res.redirect('/signup');
 
                         console.log("Already registered");
                         client.close();
                     }
                     else {
-
                         collection.insertOne({
                             user: req.body.user,
                             login: req.body.login,

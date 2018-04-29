@@ -5,7 +5,9 @@ var mongodb = require('mongodb');
 
 router.get("/",function (req,res) {
    res.render('login',{success:success,ownErrors:ownErrors});
-
+    errors=null;
+    ownErrors=null;
+    success=null;
 });
 
 

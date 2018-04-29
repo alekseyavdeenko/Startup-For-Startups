@@ -2,10 +2,8 @@ extends layout
 
 block content
 	include header
-
 	#account-form-container.center-vertical
 		include validationErrors
-
 		form(method='post',action='adduser')#account-form.form-horizontal.well
 			h2 Welcome to Boost Up!
 			p Please fill out the form below
@@ -32,7 +30,7 @@ block content
 			.form-group
 				label.control-label.col-sm-3 Confirm Password
 				.col-sm-9
-					input.form-control#pass-tf(type='password', name='confirm_password', value='')
+					input.form-control#pass-t(type='password', name='confirm_password', value='')
 
 			hr
 			.form-buttons
