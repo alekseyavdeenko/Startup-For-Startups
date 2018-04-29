@@ -11,14 +11,29 @@ block content
             img#input_img(name="image", src='../../images/default_avatar.gif', width = "120px", height='150px')
             br
             br
-            .span Your rank:
+            h2 QUESTIONS
             br
-            .progress
+            .row
+                .col-md-6
+                    b ANSWERED:
+                .col-md-6
+                    b ASKED:
+                .col-md-6
+                    h3=0
+                .col-md-6
+                    h3=0
+            br
+            b RANK:
+            br
+            br
+            .progress(style='width: 100%')
                 #progbar.progress-bar-danger.progress-bar-striped.active.glyphicon.glyphicon-star(style='width: 20%; padding: 1px 5%; color: white') Private
 
-            .span Answered questions:
-                h3 0
-            br
-            .span To increase your rank fill out your profile and help others ;)
+            .panel.panel-primary
+                .panel-heading Tip of the day
+                .panel-body To increase your rank fill out your profile and help others
             br
             button#change_userSettings.btn.btn-primary(onclick='window.location="/user/#{logedUser.login}/profileSettings"') Settings
+            button.btn.btn-primary(onclick='window.location="/user/#{logedUser.login}/Contributors"' style="margin: 0px 10px" ) Contributors
+            br
+            br

@@ -20,13 +20,27 @@ block content
                 button#change_avatar.btn.btn-primary(type="submit") submit
             br
             br
+
         form#form_update_user(name="changeUserSettings", method="post", action="changeusersettings")
+            .progress(style='width: 100%; ')
+                //Here we have to add variable that indicates how much it is filled
+                .progress-bar.progress-bar-striped(style='width: 50%; padding: 1px 5%; color: white') Of profile filled
+
             .form-group
                 label(for='input_name') Name
                 input#input_name.text-fields.form-control(type='text', placeholder="Your name", name="user", value="#{user.user}")
-            .form-group
-                label(for='input_login') Login
-                input#input_login.text-fields.form-control(type='text', placeholder="Login", name="login", value="#{user.login}")
+            //.form-group
+            //    label(for='input_login') Login
+            //    input#input_login.text-fields.form-control(type='text', placeholder="Login", name="login", value="#{user.login}")
+            if(user.mail !=null)
+                .form-group
+                    label(for='input_login') Change E-mail
+                    input#input_login.text-fields.form-control(type='email', placeholder="me@mail.com", name="mail", value="#{user.mail}")
+            else
+                .form-group
+                    label(for='input_login') Enter E-mail
+                    input#input_login.text-fields.form-control(type='email', placeholder="me@mail.com", name="mail")
+
             .form-group
                 label(for='input_password') Password
                 input#input_password.text-fields.form-control(type='password', placeholder="Password", name="password")

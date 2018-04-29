@@ -12,8 +12,7 @@ body {
   /*background: -ms-radial-gradient(center, ellipse cover, #00BFFF 0%, #d6f0fd 100%) !* IE10+ *!;*/
   /*background: radial-gradient(center, ellipse cover, #00BFFF 0%, #d6f0fd 100%) !* W3C *!;*/
   /*background: linear-gradient(to bottom right,#e6e6e6, #FFFFFF );*/
-  background: #e3e3e3;
-
+    background-color: #f1f1f1
 }
 
 h3{
@@ -59,6 +58,7 @@ input[type=submit]{
   height: 120px;
   width: 120px;
 }
+
 /*input[type=submit]:hover{*/
   /*box-shadow: 0 4px 40px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);*/
   /*transition:	all	600ms ease-out;*/
@@ -79,6 +79,7 @@ input[type=submit]{
   /*overflow: scroll; !* Disables scrollbars on the header frame. To enable scrollbars, change "hidden" to "scroll" *!*/
   background: #000000;
 }
+
 
 .cont{
   margin: 60px 15%;
