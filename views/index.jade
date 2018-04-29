@@ -1,13 +1,14 @@
 extends layout
 block content
     include header
-    h1= title
-    if(title!="Not loged in")
-        p Welcome, #{title}
-    button#login.btn.btn-primary(onclick="window.location ='/login'" style="margin:5px") Login
-    if(title!="Not logged in")
-        button#remove_user.btn.btn-primary(onclick="window.location ='/logout'" style="margin:5px") Log out
-        button#change_userSettings.btn.btn-primary(onclick='window.location="/user/#{login}"' style="margin:5px") My Profile
+    .sdvig(style="margin: 10%")
+        h1= title
+        if(title!="Not loged in")
+            p Welcome, #{title}
+        button#login.btn.btn-primary(onclick="window.location ='/login'" style="margin:5px") Login
+        if(title!="Not logged in")
+            button#remove_user.btn.btn-primary(onclick="window.location ='/logout'" style="margin:5px") Log out
+            button#change_userSettings.btn.btn-primary(onclick='window.location="/user/#{login}"' style="margin:5px") My Profile
 
 
     //img(src="images/feature-1.png")
