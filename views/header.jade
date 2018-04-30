@@ -14,9 +14,9 @@ nav#header.navbar.navbar-inverse
             b.caret
           ul.dropdown-menu.dropdown-toggle(data-toggle="dropdown")
             li
-              a(href="../") Main
+              a(onclick='window.location="/"') Main
             li
-              a(href="../ask") Ask
+              a(onclick='window.location="/ask"') Ask
       form.navbar-form.navbar-left
         .form-group
           input.form-control(type='text', placeholder='Search')
@@ -29,10 +29,10 @@ nav#header.navbar.navbar-inverse
           ul.dropdown-menu
             li
               //onclick='window.location="/user/#{logedUser.login}"'
-              a(href='../../User/user') My Page
+              a(onclick='window.location="/User/user"') My Page
             li
               //onclick='window.location="/user/#{logedUser.login}/profileSettings"'
-              a(href='../../User/user/profileSettings') Profile Settings
+              a(onclick='window.location="/User/user/profileSettings"') Profile Settings
 
 
 br

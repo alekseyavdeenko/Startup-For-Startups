@@ -132,3 +132,20 @@
 	float: right;
 }
 
+#log{
+	margin-right:50px;
+}
+
+.nag{
+	align:middle;
+	display: block;
+	width: 100%;
+	height: auto;
+
+}
+
+#log:hover{
+	-moz-box-shadow: 0 0 15px #5c689b;
+	-webkit-box-shadow: 0 0 15px #384179;
+	box-shadow: 0 0 15px #50509e;
+}

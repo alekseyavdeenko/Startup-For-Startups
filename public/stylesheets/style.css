@@ -125,10 +125,7 @@ input[type=submit]{
   width: 90%;
   height: 40px;
 }
-select {
-  text-align-last: center;
-  border: 1px solid #e3e3e3;
-}
+
 
 .change_userSettings:hover{
   background-color: #265c99;
