@@ -9,19 +9,10 @@ block content
 
         if(logedUser!=null)
             .images(style="position: relative; margin-bottom:120px")
-                if(logedUser.back_img!=null)
-                    img#back_img(name="image",src=user.back, alt='.img-responsive',
-                style="width: 98%; height:120px; position: absolute; border-radius: 60px; right:0")
-                else
-                    img#back_img(name="image",src="public/images/default_background.jpg", alt='.img-responsive',
-                    style="width: 98%; height:120px; position: absolute; border-radius: 60px; right:0")
-                if(logedUser.img !=null)
-                    img#input_img.img-circle(name="image",src=logedUser.img,alt='.img-circle',style="position: absolute")
-                else
-                    img#input_img.img-circle(name="image",src="../../images/default_avatar.gif",alt='.img-circle',style="position: absolute")
-                h3(style="position: absolute; padding: 10px; right: 10%; font-size:50px; color: white") XYU
-
-
+                img#back_img(name="image",src=user.img, alt='.img-responsive',
+                                style="width: 98%; height:120px; position: absolute; border-radius: 60px; right:0")
+                img#input_img.img-circle(name="image",src=user.img,alt='.img-circle',style="position: absolute")
+                h3(style="position: absolute; padding: 10px; right: 10%; font-size:50px; color: white") #{user.login}
             br
             br
             h2 QUESTIONS
@@ -32,9 +23,9 @@ block content
                 .col-md-6
                     b ASKED:
                 .col-md-6
-                    h3=0
+                    h3=user.answered
                 .col-md-6
-                    h3=0
+                    h3=user.asked
             br
             b RANK:
             br
@@ -46,7 +37,8 @@ block content
                 .panel-heading Tip of the day
                 .panel-body To increase your rank fill out your profile and help others
             br
-            button#change_userSettings.btn.btn-primary(onclick='window.location="/user/#{logedUser.login}/profileSettings"') Settings
-            button.btn.btn-primary(onclick='window.location="/user/#{logedUser.login}/Contributors"' style="margin: 0px 10px" ) Contributors
+            if(user.login==logedUser.login)
+                button#change_userSettings.btn.btn-primary(onclick='window.location="/user/#{logedUser.login}/profileSettings"') Settings
+                button.btn.btn-primary(onclick='window.location="/user/#{logedUser.login}/Contributors"' style="margin: 0px 10px" ) Contributors
             br
             br
