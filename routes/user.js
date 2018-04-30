@@ -51,6 +51,335 @@ router.get('/:user/profileSettings',function (req,res) {
     }
 });
 
+
+
+
+
+router.post('/:user/uploadback',function (req,res) {
+    var form = new formidable.IncomingForm();
+    form.parse(req, function (err, fields, files) {
+        if(files.meImage!=undefined) {
+            var oldpath = files.meImage.path;
+            var newpath = 'c:\\users\\pc\\webstormprojects\\startup-for-startups\\uploads\\';
+            var extension = files.meImage.name.substr(files.meImage.name.length - 3);
+            console.log(extension);
+            if(extension!='jpg'&&extension!='png'&&extension!='jpeg'&&extension!='PNG'){
+                ownErrors=['We support only jpg and png extensions'];
+
+                success=false;
+                res.redirect("/user/"+req.session.logedInUser.login+"/profileSettings");
+            }
+            else {
+                errors=null;
+                ownErrors=null;
+                success=null;
+                var name = req.session.logedInUser.login;
+
+                newpath = 'c:\\users\\pc\\webstormprojects\\startup-for-startups\\public\\uploads\\' + name + '.' + extension;
+
+                fs.rename(oldpath, newpath, function (err) {
+                    if (err) res.send(err);
+                    else {
+
+                        newpath = '../../uploads/' + name + '.' + extension;
+
+
+                        var MongoClient = mongodb.MongoClient;
+
+                        MongoClient.connect(connectUrl, function (err, client) {
+                            if (err) {
+                                console.log("Cannot connect to db");
+                            } else {
+                                console.log("Connected");
+                                var db = client.db('startup');
+                                var collection = db.collection("users");
+                                var updUser = {
+                                    user: req.session.logedInUser.user,
+                                    login: req.session.logedInUser.login,
+                                    password: req.session.logedInUser.password,
+                                    points:req.session.logedInUser.points,
+                                    back: newpath
+                                };
+                                collection.updateOne({
+                                    user: req.session.logedInUser.user,
+                                    login: req.session.logedInUser.login,
+                                    password: req.session.logedInUser.password,
+                                    points:req.session.logedInUser.points,
+                                    back: req.session.logedInUser.back
+                                }, {$set: updUser}, function (err, results) {
+                                    if (err) {
+                                        console.log("You are not registered")
+                                    }
+
+                                    else {
+                                        req.session.logedInUser.back = newpath;
+                                        res.redirect('/user/' + req.session.logedInUser.login + '/profileSettings');
+                                    }
+
+                                    client.close()
+                                })
+                            }
+                        })
+
+                    }
+                });
+            }
+        }
+        else{
+            ownErrors=['We support only jpg and png extensions'];
+            success=false;
+            res.redirect('/user/' + req.session.logedInUser.login + '/profileSettings');
+        }
+    })});
+
+
+
+
+router.post('/:user/uploadback',function (req,res) {
+    var form = new formidable.IncomingForm();
+    form.parse(req, function (err, fields, files) {
+        if(files.meImage!=undefined) {
+            var oldpath = files.meImage.path;
+            var newpath = 'c:\\users\\pc\\webstormprojects\\startup-for-startups\\uploads\\';
+            var extension = files.meImage.name.substr(files.meImage.name.length - 3);
+            console.log(extension);
+            if(extension!='jpg'&&extension!='png'&&extension!='jpeg'&&extension!='PNG'){
+                ownErrors=['We support only jpg and png extensions'];
+
+                success=false;
+                res.redirect("/user/"+req.session.logedInUser.login+"/profileSettings");
+            }
+            else {
+                errors=null;
+                ownErrors=null;
+                success=null;
+                var name = req.session.logedInUser.login;
+
+                newpath = 'c:\\users\\pc\\webstormprojects\\startup-for-startups\\public\\uploads\\' + name + '.' + extension;
+
+                fs.rename(oldpath, newpath, function (err) {
+                    if (err) res.send(err);
+                    else {
+
+                        newpath = '../../uploads/' + name + '.' + extension;
+
+
+                        var MongoClient = mongodb.MongoClient;
+
+                        MongoClient.connect(connectUrl, function (err, client) {
+                            if (err) {
+                                console.log("Cannot connect to db");
+                            } else {
+                                console.log("Connected");
+                                var db = client.db('startup');
+                                var collection = db.collection("users");
+                                var updUser = {
+                                    user: req.session.logedInUser.user,
+                                    login: req.session.logedInUser.login,
+                                    password: req.session.logedInUser.password,
+                                    points:req.session.logedInUser.points,
+                                    back: newpath
+                                };
+                                collection.updateOne({
+                                    user: req.session.logedInUser.user,
+                                    login: req.session.logedInUser.login,
+                                    password: req.session.logedInUser.password,
+                                    points:req.session.logedInUser.points,
+                                    back: req.session.logedInUser.back
+                                }, {$set: updUser}, function (err, results) {
+                                    if (err) {
+                                        console.log("You are not registered")
+                                    }
+
+                                    else {
+                                        req.session.logedInUser.back = newpath;
+                                        res.redirect('/user/' + req.session.logedInUser.login + '/profileSettings');
+                                    }
+
+                                    client.close()
+                                })
+                            }
+                        })
+
+                    }
+                });
+            }
+        }
+        else{
+            ownErrors=['We support only jpg and png extensions'];
+            success=false;
+            res.redirect('/user/' + req.session.logedInUser.login + '/profileSettings');
+        }
+    })});
+
+
+
+
+
+router.post('/:user/uploadback',function (req,res) {
+    var form = new formidable.IncomingForm();
+    form.parse(req, function (err, fields, files) {
+        if(files.meImage!=undefined) {
+            var oldpath = files.meImage.path;
+            var newpath = 'c:\\users\\pc\\webstormprojects\\startup-for-startups\\uploads\\';
+            var extension = files.meImage.name.substr(files.meImage.name.length - 3);
+            console.log(extension);
+            if(extension!='jpg'&&extension!='png'&&extension!='jpeg'&&extension!='PNG'){
+                ownErrors=['We support only jpg and png extensions'];
+
+                success=false;
+                res.redirect("/user/"+req.session.logedInUser.login+"/profileSettings");
+            }
+            else {
+                errors=null;
+                ownErrors=null;
+                success=null;
+                var name = req.session.logedInUser.login;
+
+                newpath = 'c:\\users\\pc\\webstormprojects\\startup-for-startups\\public\\uploads\\' + name + '.' + extension;
+
+                fs.rename(oldpath, newpath, function (err) {
+                    if (err) res.send(err);
+                    else {
+
+                        newpath = '../../uploads/' + name + '.' + extension;
+
+
+                        var MongoClient = mongodb.MongoClient;
+
+                        MongoClient.connect(connectUrl, function (err, client) {
+                            if (err) {
+                                console.log("Cannot connect to db");
+                            } else {
+                                console.log("Connected");
+                                var db = client.db('startup');
+                                var collection = db.collection("users");
+                                var updUser = {
+                                    user: req.session.logedInUser.user,
+                                    login: req.session.logedInUser.login,
+                                    password: req.session.logedInUser.password,
+                                    points:req.session.logedInUser.points,
+                                    back: newpath
+                                };
+                                collection.updateOne({
+                                    user: req.session.logedInUser.user,
+                                    login: req.session.logedInUser.login,
+                                    password: req.session.logedInUser.password,
+                                    points:req.session.logedInUser.points,
+                                    back: req.session.logedInUser.back
+                                }, {$set: updUser}, function (err, results) {
+                                    if (err) {
+                                        console.log("You are not registered")
+                                    }
+
+                                    else {
+                                        req.session.logedInUser.back = newpath;
+                                        res.redirect('/user/' + req.session.logedInUser.login + '/profileSettings');
+                                    }
+
+                                    client.close()
+                                })
+                            }
+                        })
+
+                    }
+                });
+            }
+        }
+        else{
+            ownErrors=['We support only jpg and png extensions'];
+            success=false;
+            res.redirect('/user/' + req.session.logedInUser.login + '/profileSettings');
+        }
+    })});
+
+
+
+
+
+router.post('/:user/uploadback',function (req,res) {
+    var form = new formidable.IncomingForm();
+    form.parse(req, function (err, fields, files) {
+        if(files.meImage!=undefined) {
+            var oldpath = files.meImage.path;
+            var newpath = 'c:\\users\\pc\\webstormprojects\\startup-for-startups\\uploads\\';
+            var extension = files.meImage.name.substr(files.meImage.name.length - 3);
+            console.log(extension);
+            if(extension!='jpg'&&extension!='png'&&extension!='jpeg'&&extension!='PNG'){
+                ownErrors=['We support only jpg and png extensions'];
+
+                success=false;
+                res.redirect("/user/"+req.session.logedInUser.login+"/profileSettings");
+            }
+            else {
+                errors=null;
+                ownErrors=null;
+                success=null;
+                var name = req.session.logedInUser.login;
+
+                newpath = 'c:\\users\\pc\\webstormprojects\\startup-for-startups\\public\\uploads\\' + name + '.' + extension;
+
+                fs.rename(oldpath, newpath, function (err) {
+                    if (err) res.send(err);
+                    else {
+
+                        newpath = '../../uploads/' + name + '.' + extension;
+
+
+                        var MongoClient = mongodb.MongoClient;
+
+                        MongoClient.connect(connectUrl, function (err, client) {
+                            if (err) {
+                                console.log("Cannot connect to db");
+                            } else {
+                                console.log("Connected");
+                                var db = client.db('startup');
+                                var collection = db.collection("users");
+                                var updUser = {
+                                    user: req.session.logedInUser.user,
+                                    login: req.session.logedInUser.login,
+                                    password: req.session.logedInUser.password,
+                                    points:req.session.logedInUser.points,
+                                    back: newpath
+                                };
+                                collection.updateOne({
+                                    user: req.session.logedInUser.user,
+                                    login: req.session.logedInUser.login,
+                                    password: req.session.logedInUser.password,
+                                    points:req.session.logedInUser.points,
+                                    back: req.session.logedInUser.back
+                                }, {$set: updUser}, function (err, results) {
+                                    if (err) {
+                                        console.log("You are not registered")
+                                    }
+
+                                    else {
+                                        req.session.logedInUser.back = newpath;
+                                        res.redirect('/user/' + req.session.logedInUser.login + '/profileSettings');
+                                    }
+
+                                    client.close()
+                                })
+                            }
+                        })
+
+                    }
+                });
+            }
+        }
+        else{
+            ownErrors=['We support only jpg and png extensions'];
+            success=false;
+            res.redirect('/user/' + req.session.logedInUser.login + '/profileSettings');
+        }
+    })});
+
+
+
+
+
+
+
 router.post('/:user/uploadimage',function (req,res) {
         if (req.session.logedInUser) {
             var form = new formidable.IncomingForm();

@@ -18,9 +18,19 @@ block content
                 input#input_image.btn.btn-default(type="file", name="myImage")
                 br
                 button#change_avatar.btn.btn-primary(type="submit") submit
-            br
-            br
 
+            form#user_back(name="user_back", method='post', action='uploadback', enctype="multipart/form-data")
+                if(user.back != null)
+                    img#back_img(name="image",src='../../images/default_background.jpg', alt='.img-responsive',
+                    style="width: 100%; height:120px; border-radius: 60px; right:0; ")
+                    br
+                else
+                    img#back_img(name="image",src='../../images/default_background.jpg', alt='.img-responsive',
+                    style="width: 100%; height:120px; border-radius: 60px; right:0; ")
+                    br
+                input#back_image.btn.btn-default(type="file", name="meImage")
+                br
+                button#change_back.btn.btn-primary(type="submit") submit
         form#form_update_user(name="changeUserSettings", method="post", action="changeusersettings")
             .progress(style='width: 100%; ')
                 //Here we have to add variable that indicates how much it is filled
